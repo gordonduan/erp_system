@@ -33,6 +33,8 @@ bin/cake server -p 8765
 
 Then visit `http://localhost:8765` to see the welcome page.
 
+3. Run the SQL script to create database and tables(./sql/db.sql).
+
 ## Update
 
 Since this skeleton is a starting point for your application and various files
