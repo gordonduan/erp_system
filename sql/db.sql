@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `cake_erp` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `cake_erp`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cake_erp
@@ -75,6 +77,38 @@ LOCK TABLES `orders` WRITE;
 INSERT INTO `orders` VALUES (1,1,'Iphone8','64G',1,'0','1','2017-11-18 13:34:24','2017-11-19 02:19:17'),(2,1,'iphone8 sale order','sell iphone8 1 set',1,'0','1','2017-11-18 22:12:05','2017-11-19 03:51:44'),(3,1,'Iphone8 order2','Purchasing order from Apple.',100,'1','1','2017-11-19 00:19:54','2017-11-19 03:55:14'),(4,2,'S8 purchasing order','S8 purchasing order',100,'1','1','2017-11-19 00:25:39','2017-11-19 00:25:39'),(5,2,'sales order','S8 sales order',1,'0','0','2017-11-19 00:37:46','2017-11-19 00:37:46'),(6,2,'S8','S8 order',100,'0','1','2017-11-19 03:56:10','2017-11-19 04:05:32'),(7,2,'S8-1','S8 128G',1,'1','1','2017-11-19 04:07:06','2017-11-19 04:07:14'),(8,2,'S8 blue','S8 blue',1000,'0','1','2017-11-19 04:12:33','2017-11-19 04:12:50'),(9,2,'s8 blue','s8 blue sale',500,'1','1','2017-11-19 04:13:34','2017-11-19 04:13:39');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER updatestock 
+AFTER UPDATE ON orders
+FOR EACH ROW
+BEGIN
+DECLARE sql_count int(10);
+IF new.status != old.status and new.status ='1' then
+	SET sql_count = (select count(*) from stocks where product_id=new.product_id);
+	IF sql_count = 0 THEN
+		INSERT INTO stocks select null,product_id,name,description,quantity,now(),now() from orders where id=new.id;
+	ELSE
+		IF new.type='0' then
+			update stocks set quantity=quantity+new.quantity where product_id=new.product_id;
+		elseif new.type='1' then
+			update stocks set quantity=quantity-new.quantity where product_id=new.product_id;
+		END IF;
+	END IF;
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `products`
@@ -133,6 +167,14 @@ LOCK TABLES `stocks` WRITE;
 INSERT INTO `stocks` VALUES (1,1,'','',101,'2017-11-18 13:43:15','2017-11-18 13:43:15'),(4,2,'S8 blue','S8 blue',500,'2017-11-19 04:12:50','2017-11-19 04:12:50');
 /*!40000 ALTER TABLE `stocks` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'cake_erp'
+--
+
+--
+-- Dumping routines for database 'cake_erp'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -143,4 +185,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-19 21:17:32
+-- Dump completed on 2017-11-19 21:27:40
