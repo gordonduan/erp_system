@@ -22,11 +22,11 @@
 <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="#">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Orders</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Orders</span></div>
         </div>
         <div class="search-wrap">
             <div class="search-content">
-                <form action="#" method="post">
+              <?= $this->Form->create('order', ['url' => ['action' => 'search']])?>
                     <table class="search-tab">
                         <tr>
                             <th width="70">Name:</th>
@@ -34,7 +34,7 @@
                             <td><input class="btn btn-primary btn2" name="sub" value="Search" type="submit"></td>
                         </tr>
                     </table>
-                </form>
+                <?= $this->Form->end() ?>
             </div>
         </div>
 
@@ -43,8 +43,8 @@
                 <div class="result-title">
                     <div class="result-list">
                           <?= $this->Html->link('<i class="icon-font">&#xea0a;</i>'.__('Add Order', true), ['action' => 'add'], ['escape' => false]); ?>
-                        <a id="batchDel" href="javascript:void(0)"><i class="icon-font">&#xe9ac;</i>Batch Delete</a>
-                        <a id="updateOrd" href="javascript:void(0)"><i class="icon-font">&#xea2e;</i>Refresh</a>
+                  <!--      <a id="batchDel" href="javascript:void(0)"><i class="icon-font">&#xe9ac;</i>Batch Delete</a> -->
+                        <?= $this->Html->link('<i class="icon-font">&#xea2e;</i>'.__('Refresh', true), ['action' => 'refresh'], ['escape' => false]); ?>
                     </div>
                 </div>
                 <div class="result-content">

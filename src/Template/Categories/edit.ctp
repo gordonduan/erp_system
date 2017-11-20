@@ -12,7 +12,7 @@
     <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="#">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/jscss/admin/design/">Categories</a><span class="crumb-step">&gt;</span><span>Edit</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/categories">Categories</a><span class="crumb-step">&gt;</span><span>Edit</span></div>
         </div>
         <div class="result-wrap"  style="border-bottom: 0px">
             <div class="result-content">

@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class CategoriesController extends AppController
 {
+    public $paginate = [
+      'contain' => ['ParentCategories'],
+      'limit' => 8
+    ];
 
     /**
      * Index method
@@ -20,15 +24,54 @@ class CategoriesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['ParentCategories']
-        ];
         $categories = $this->paginate($this->Categories);
 
         $this->set(compact('categories'));
         $this->set('_serialize', ['categories']);
     }
 
+    public function search()
+    {
+    //  $this->log($this->request->data);
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          {
+             $search_key = trim($this->request->data('keywords'));
+             $resultsArray = $this->Categories
+              ->find()
+              ->where(["categories.name LIKE" => "%".$search_key."%"]);
+              $querys = $this->paginate($resultsArray);
+              $this->set('categories',$querys);
+              $this->render('index');
+          }
+        }
+    }
+
+    public function batchdel()
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        if ($this->request->is('post'))
+        {
+           if(!empty($this->request->data) && isset($this->request->data) )
+           {
+             $deleteid = $this->request->data('id');
+             foreach ( $deleteid as $id ) {
+                $category = $this->Categories->get ($id);
+                $this->Categories->delete ($category);
+            }
+            return $this->redirect($this->referer());
+            }
+        }
+
+    }
+
+    public function refresh()
+    {
+
+      return $this->redirect($this->referer());
+
+    }
     /**
      * View method
      *
@@ -110,7 +153,7 @@ class CategoriesController extends AppController
         } else {
             $this->Flash->error(__('The category could not be deleted. Please, try again.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
+      //  return $this->redirect(['action' => 'index']);
     }
 }

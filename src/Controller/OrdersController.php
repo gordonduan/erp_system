@@ -12,7 +12,10 @@ use App\Controller\AppController;
  */
 class OrdersController extends AppController
 {
-
+    public $paginate = [
+      'contain' => ['Products'],
+      'limit' => 8
+    ];
     /**
      * Index method
      *
@@ -20,15 +23,35 @@ class OrdersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Products']
-        ];
         $orders = $this->paginate($this->Orders);
 
         $this->set(compact('orders'));
         $this->set('_serialize', ['orders']);
     }
 
+    public function search()
+    {
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          {
+             $search_key = trim($this->request->data('keywords'));
+             $resultsArray = $this->Orders
+              ->find()
+              ->where(["orders.name LIKE" => "%".$search_key."%"]);
+              $querys = $this->paginate($resultsArray);
+              $this->set('orders',$querys);
+              $this->render('index');
+          }
+        }
+    }
+
+    public function refresh()
+    {
+
+      return $this->redirect($this->referer());
+
+    }
     /**
      * View method
      *
@@ -113,8 +136,8 @@ class OrdersController extends AppController
         } else {
             $this->Flash->error(__('The order could not be deleted. Please, try again.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
+      //  return $this->redirect(['action' => 'index']);
     }
 
     public function approve($id = null)
@@ -127,7 +150,8 @@ class OrdersController extends AppController
         } else {
             $this->Flash->error(__('The order could not be approved. Please, try again.'));
         }
-          return $this->redirect(['action' => 'index']);
+    //      return $this->redirect(['action' => 'index']);
+          return $this->redirect($this->referer());
         }
 
 }

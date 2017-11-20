@@ -18,15 +18,25 @@
  */
 ?>
 
+<script>
+
+function formsubmit()
+{
+  alert('Permissions to modify inventory are only granted to Admin!');
+}
+</script>
 
 <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="#">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Stocks</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Stocks</span></div>
         </div>
         <div class="search-wrap">
             <div class="search-content">
-              <form action="stocks/index" method="post">
+            <!--   <form action="/erp/stocks/index" method="post">  -->
+            <!--      <?= $this->Form->create($stocks, ['controller' => 'Stocks', 'action' => 'index']) ?> -->
+            <!--  <?= $this->Form->create('stock', ['action' => 'index'])?> -->
+                  <?= $this->Form->create('stock', ['url' => ['action' => 'search']])?>
                   <table class="search-tab">
                       <tr>
                           <th width="70">Name:</th>
@@ -34,7 +44,8 @@
                           <td><input class="btn btn-primary btn2" name="sub" value="Search" type="submit"></td>
                       </tr>
                   </table>
-              </form>
+                <?= $this->Form->end() ?>
+            <!--  </form> -->
             </div>
         </div>
 
@@ -42,8 +53,9 @@
 
                 <div class="result-title">
                     <div class="result-list">
+                      <a id="addstock" href="javascript:void(0)" onclick="formsubmit()"><i class="icon-font">&#xea0a;</i>Modify Stock</a>
 
-                        <a id="updateOrd" href="javascript:void(0)"><i class="icon-font">&#xea2e;</i>Refresh</a>
+                        <?= $this->Html->link('<i class="icon-font">&#xea2e;</i>'.__('Refresh', true), ['action' => 'refresh'], ['escape' => false]); ?>
                     </div>
                 </div>
                 <div class="result-content">
@@ -58,7 +70,8 @@
                             <?php foreach ($stocks as $stock): ?>
                             <tr>
                               <td><?= $this->Number->format($stock->product_id) ?></td>
-                              <td><?= $stock->has('product') ? $this->Html->link($stock->product->name, ['controller' => 'Products', 'action' => 'view', $stock->product->id]) : '' ?></td>
+                          <!--    <td><?= $stock->has('product') ? $this->Html->link($stock->product->name, ['controller' => 'Products', 'action' => 'view', $stock->product->id]) : '' ?></td> -->
+                              <td><?= h($stock->name) ?></td>
                               <td><?= h($stock->description) ?></td>
                               <td><?= $this->Number->format($stock->quantity) ?></td>
                             </tr>

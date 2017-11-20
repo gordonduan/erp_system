@@ -62,6 +62,10 @@ class OrdersTable extends Table
             ->allowEmpty('name');
 
         $validator
+            ->notEmpty('product_id')
+            ->requirePresence('product_id');
+
+        $validator
             ->scalar('description')
             ->allowEmpty('description');
 
@@ -70,8 +74,8 @@ class OrdersTable extends Table
             ->allowEmpty('quantity');
 
         $validator
-            ->scalar('type')
-            ->allowEmpty('type');
+            ->notEmpty('type')
+            ->requirePresence('type');
 
         $validator
             ->scalar('status')

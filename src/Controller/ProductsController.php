@@ -12,7 +12,10 @@ use App\Controller\AppController;
  */
 class ProductsController extends AppController
 {
-
+    public $paginate = [
+      'contain' => ['Categories'],
+      'limit' => 8
+    ];
     /**
      * Index method
      *
@@ -20,15 +23,34 @@ class ProductsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Categories']
-        ];
         $products = $this->paginate($this->Products);
-
         $this->set(compact('products'));
         $this->set('_serialize', ['products']);
     }
 
+    public function search()
+    {
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          {
+             $search_key = trim($this->request->data('keywords'));
+             $resultsArray = $this->Products
+              ->find()
+              ->where(["products.name LIKE" => "%".$search_key."%"]);
+              $querys = $this->paginate($resultsArray);
+              $this->set('products',$querys);
+              $this->render('index');
+          }
+        }
+    }
+
+    public function refresh()
+    {
+
+      return $this->redirect($this->referer());
+
+    }
     /**
      * View method
      *
@@ -113,7 +135,7 @@ class ProductsController extends AppController
         } else {
             $this->Flash->error(__('The product could not be deleted. Please, try again.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
+      //  return $this->redirect(['action' => 'index']);
     }
 }

@@ -26,7 +26,7 @@ function formsubmit()
                         <table class="search-tab">
                         <tr>
                             <th width="70"></th>
-                            <div style="margin-left:70px; font-size:24px">Welcome!......</div>
+                            <div style="margin-left:70px; font-size:24px">Come Soon......</div>
 
                         </tr>
                     </table>

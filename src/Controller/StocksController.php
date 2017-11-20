@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class StocksController extends AppController
 {
+    public $paginate = [
+      'contain' => ['Products'],
+      'limit' => 8
+    ];
 
     /**
      * Index method
@@ -20,36 +24,41 @@ class StocksController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Products']
-        ];
-        if ($this->request->is('post')) {
-            $keywords = $this->request->data('keywords');
-            $stocks = $this->Stocks->find('all', ['conditions' => ['Stocks.name >' => $keywords]]);
-
-        } else {
-            $stocks = $this->Stocks;
-        }
-
-        $stocks = $this->paginate($stocks);
+        $stocks = $this->paginate($this->Stocks);
 
         $this->set(compact('stocks'));
         $this->set('_serialize', ['stocks']);
     }
 
-    public function search()
-    {
-        $this->paginate = [
-            'contain' => ['Products']
-        ];
-        echo $_POST['keywords'];
-        $keywords = $this->request->data('keywords');
+      public function search()
+      {
+         if ($this->request->is('post'))
+         {
+            if(!empty($this->request->data) && isset($this->request->data) )
+            {
+               $search_key = trim($this->request->data('keywords'));
+               $resultsArray = $this->Stocks
+                ->find()
+                ->where(["stocks.name LIKE" => "%".$search_key."%"]);
+    //            debug($resultsArray);
+                $stocks = $this->paginate($resultsArray);
+                $this->set('stocks',$stocks);
+                $this->render('index');
+            }
+          //  ->all();
+          //  foreach ($resultsArray as $stock) {
+          //  debug($stock->name);
+          //  debug($this->Stocks->find()->where(["Stock.name LIKE" => "%".$search_key."%"]));
 
-        $stocks = $this->Stocks->find('all', ['conditions' => ['Stocks.name >' => $keywords]]);$this->log($stocks);
+          }
+      }
+      
+      public function refresh()
+      {
 
-        $this->set(compact('stocks'));
-        $this->set('_serialize', ['stocks']);
-    }
+        return $this->redirect($this->referer());
+
+      }
     /**
      * View method
      *
@@ -57,6 +66,7 @@ class StocksController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+
     public function view($id = null)
     {
         $stock = $this->Stocks->get($id, [

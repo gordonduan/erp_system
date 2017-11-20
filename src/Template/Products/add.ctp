@@ -18,7 +18,7 @@
     <div class="main-wrap">
 
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="#">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/jscss/admin/design/">Products</a><span class="crumb-step">&gt;</span><span>Add</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/products">Products</a><span class="crumb-step">&gt;</span><span>Add</span></div>
         </div>
         <div class="result-wrap" style="border-bottom: 0px">
             <div class="result-content">
@@ -26,7 +26,7 @@
                     <table class="insert-tab" width="100%">
                         <tbody>
                           <tr>
-                            <th width="150">Product Category：</th>
+                            <th width="150"><i class="require-red">*</i>Product Category：</th>
                             <td>
                                 <?= $this->Form->control('category_id', ['label' =>'', 'options' => $categories, 'empty' => true]);?>
                             </td>

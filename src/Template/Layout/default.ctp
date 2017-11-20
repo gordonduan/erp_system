@@ -53,19 +53,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                         <li> <?= $this->Html->link('<i class="icon-font">&#xe937;</i>'.__('Products', true), ['controller' => 'Products', 'action' => 'index'], ['escape' => false]); ?> </li>
                         <li> <?= $this->Html->link('<i class="icon-font">&#xe93a;</i>'.__('Orders', true), ['controller' => 'Orders', 'action' => 'index'], ['escape' => false]); ?> </li>
                         <li> <?= $this->Html->link('<i class="icon-font">&#xe964;</i>'.__('Stocks', true), ['controller' => 'Stocks', 'action' => 'index'], ['escape' => false]); ?> </li>
-                        <li> <?= $this->Html->link('<i class="icon-font">&#xe935;</i>'.__('Prices', true), ['controller' => 'Products', 'action' => 'index'], ['escape' => false]); ?> </li>
+                        <li> <?= $this->Html->link('<i class="icon-font">&#xe935;</i>'.__('Prices', true), ['controller' => 'Pages', 'action' => 'about_us'], ['escape' => false]); ?> </li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><i class="icon-font">&#xe920;</i>Administration</a>
                     <ul class="sub-menu">
-                        <li><a href="#"><i class="icon-font">&#xea0c;</i>Notices</a></li>
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xea0c;</i>Notices</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><i class="icon-font">&#xe99d;</i>Sales</a>
                     <ul class="sub-menu">
-                        <li><a href="#"><i class="icon-font">&#xe99b;</i>Reports</a></li>
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xe99b;</i>Reports</a></li>
                     </ul>
                 </li>
                 <li>
@@ -77,8 +77,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li>
                     <a href="#"><i class="icon-font">&#xe991;</i>Tools</a>
                     <ul class="sub-menu">
-                        <li><a href="#"><i class="icon-font">&#xe994;</i>Options</a></li>
-                        <li><a href="#"><i class="icon-font">&#xea2d;</i>Data Process</a></li>
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xe994;</i>Options</a></li>
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xea2d;</i>Data Process</a></li>
                     </ul>
                 </li>
             </ul>
