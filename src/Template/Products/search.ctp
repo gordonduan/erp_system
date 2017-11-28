@@ -38,7 +38,7 @@
                 <div class="result-title">
                     <div class="result-list">
                           <?= $this->Html->link('<i class="icon-font">&#xea0a;</i>'.__('Add Product', true), ['action' => 'add'], ['escape' => false]); ?>
-                   <!--     <a id="batchDel" href="javascript:void(0)"><i class="icon-font">&#xe9ac;</i>Batch Delete</a> -->
+                        <a id="batchDel" href="javascript:void(0)"><i class="icon-font">&#xe9ac;</i>Batch Delete</a>
                         <?= $this->Html->link('<i class="icon-font">&#xea2e;</i>'.__('Refresh', true), ['action' => 'refresh'], ['escape' => false]); ?>
                     </div>
                 </div>

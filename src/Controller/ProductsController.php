@@ -29,21 +29,29 @@ class ProductsController extends AppController
     }
 
     public function search()
-    {
-       if ($this->request->is('post'))
-       {
-          if(!empty($this->request->data) && isset($this->request->data) )
-          {
-             $search_key = trim($this->request->data('keywords'));
-             $resultsArray = $this->Products
-              ->find()
-              ->where(["products.name LIKE" => "%".$search_key."%"]);
-              $querys = $this->paginate($resultsArray);
-              $this->set('products',$querys);
-              $this->render('index');
-          }
-        }
-    }
+    {       
+           if ($this->request->is('post'))
+           {
+              if(!empty($this->request->data) && isset($this->request->data) )
+              { 
+                 $search_key = trim($this->request->data('keywords'));
+                 $resultsArray = $this->Products
+                  ->find()
+                  ->where(["products.name LIKE" => "%".$search_key."%"]);
+                  $products = $this->paginate($resultsArray);
+                  $this->set('products',$products);
+                  $this->set('_serialize', ['products']);
+                  $this->render('index');
+    //              return $this->redirect(['action' => 'index']);
+    //              return $this->redirect($this->referer());
+              } 
+            } else {
+                    $products = $this->paginate($this->Products);
+                    $this->set('products',$products);
+                    $this->set('_serialize', ['products']);
+                    $this->render('index');
+                    }
+     }    
 
     public function refresh()
     {
@@ -135,7 +143,7 @@ class ProductsController extends AppController
         } else {
             $this->Flash->error(__('The product could not be deleted. Please, try again.'));
         }
-        return $this->redirect($this->referer());
-      //  return $this->redirect(['action' => 'index']);
+//        return $this->redirect($this->referer());
+        return $this->redirect(['action' => 'index']);
     }
 }

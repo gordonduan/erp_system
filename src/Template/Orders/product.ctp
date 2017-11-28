@@ -12,6 +12,49 @@
  */
 ?>
 
+<script>
+function getdata(id)
+{
+    var xmlhttp;
+    if (id=="")
+    {
+        document.getElementById("txtHint").innerHTML="";
+        return;
+    } 
+    else{
+        document.getElementById("txtHint").innerHTML=id;
+    }
+    
+    
+     var request = new XMLHttpRequest();
+  
+//              
+                request.open('POST','/erp/details/product', true);
+                request.send("id="+id);
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            alert(request.status);
+            alert(request.responseText);
+            document.getElementById("txtHint").innerHTML=request.responseText;
+            if (request.status === 200) {
+                       // OK
+
+                       alert('ok!');
+            } else {
+                       // not OK
+                       alert('failure!');
+            }
+        }
+    };
+
+//    request.open('POST', '/Details/return', true);
+//    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+//    request.send("id="+id);
+    
+}
+</script>
+
+
 <div class="container clearfix">
 
     <!--/sidebar-->
@@ -23,15 +66,10 @@
         <?= $this->Flash->render() ?>
         <div class="result-wrap" style="border-bottom: 0px">
             <div class="result-content">
-              <?= $this->Form->create($order) ?>
+              <?= $this->Form->create('order') ?>
                     <table class="insert-tab" width="100%">
                         <tbody>
-                          <tr>
-                            <th width="150">Product：</th>
-                            <td>
-                                <?= $this->Form->control('product_id', ['label' =>'', 'options' => $products, 'empty' => true]);?>
-                            </td>
-                          </tr>
+                          
                           <tr>
                             <th><i class="require-red">*</i>Name：</th>
                               <td>
@@ -53,22 +91,16 @@
                           </tr>
 
                           <tr>
-                            <th>Order Type：</th>
+                            <th><i class="require-red">*</i>Order Type：</th>
                               <td>
                                 <select name="type">
                                   <option value="">(choose one)</option>
-                                  <option value="1">Purchasing Order</option>
-                                  <option value="2">Sales Order</option>
+                                  <option value="0">Purchasing Order</option>
+                                  <option value="1">Sales Order</option>
                               </td>
                           </tr>
                           <tr>
-                              <th>Order Status：</th>
-                              <td>
-                                <select name="status" disabled="disabled">
-                                  <option value="">(choose one)</option>
-                                  <option value="1">Finished</option>
-                                  <option value="2" selected = "selected" >Not Finished</option>
-                              </td>
+                              <input type="hidden" name="status" value="0" />
                           </tr>
 
                             <tr>
@@ -93,6 +125,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--
 <?php
 /**
@@ -103,12 +152,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $order->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $order->id)]
-            )
-        ?></li>
         <li><?= $this->Html->link(__('List Orders'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Products'), ['controller' => 'Products', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Product'), ['controller' => 'Products', 'action' => 'add']) ?></li>
@@ -117,7 +160,7 @@
 <div class="orders form large-9 medium-8 columns content">
     <?= $this->Form->create($order) ?>
     <fieldset>
-        <legend><?= __('Edit Order') ?></legend>
+        <legend><?= __('Add Order') ?></legend>
         <?php
             echo $this->Form->control('product_id', ['options' => $products, 'empty' => true]);
             echo $this->Form->control('name');

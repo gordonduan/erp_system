@@ -36,7 +36,6 @@ function formsubmit()
         </div>
     <?= $this->Flash->render() ?>
         <div class="search-wrap">
-            
             <div class="search-content">
                 <?= $this->Form->create('category', ['url' => ['action' => 'search']])?>
                     <table class="search-tab">
@@ -76,7 +75,6 @@ function formsubmit()
                             <?php foreach ($categories as $category): ?>
                             <tr>
                                 <td class="tc"><input name="id[]" value="<?= $category->id ?>" type="checkbox"></td>
-                                <?= $this->Form->end() ?>
                                 <td><?= $this->Number->format($category->id) ?></td>
                                 <td><?= $category->has('parent_category') ? $this->Html->link($category->parent_category->name, ['controller' => 'Categories', 'action' => 'view', $category->parent_category->id]) : '' ?></td">
                                 <td><?= h($category->name) ?></td>
@@ -103,6 +101,6 @@ function formsubmit()
                             <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
                     </div>
                 </div>
-          
+          <?= $this->Form->end() ?>
     </div>
 </div>

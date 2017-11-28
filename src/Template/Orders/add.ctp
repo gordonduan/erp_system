@@ -11,6 +11,87 @@
  * @var \App\Model\Entity\Category $category
  */
 ?>
+<!--
+<script>
+function getdata(id)
+{
+    var xmlhttp;
+    if (id=="")
+    {
+        document.getElementById("txtHint").innerHTML="";
+        return;
+    } 
+    else{
+        document.getElementById("txtHint").innerHTML=id;
+    }
+    
+    
+     var request = new XMLHttpRequest();
+     
+    request.onreadystatechange = function() {
+//        if (request.readyState === 4) {
+//            alert(request.status);
+//            alert(request.responseText);
+//            document.getElementById("txtHint").innerHTML=request.responseText;
+//            if (request.status === 200) {
+//                       // OK
+//
+//                       alert('ok!');
+//            } else {
+//                       // not OK
+//                       alert('failure!');
+//            }
+//        }
+    };
+    request.open('GET', '/erp/orders/product', true);
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.send("id="+id);
+    
+}
+
+
+$(document).ready(function(){
+$("#product").change(function(){
+    alert($(this).val());
+    $.ajax(
+        {   type:"POST",
+            url: '/erp/orders/product',
+            data: {id: $(this).val()},
+            success: function(data,status)
+            {
+                alert(data);
+            }
+        });
+});
+});
+</script>
+-->
+
+<script>
+$(document).ready(function(){
+$("#product").change(function(){
+    $.ajax({
+    type: "POST",
+    url: "<?= $this->Url->build(['controller'=>'Orders', 'action'=>'getproduct']) ?>",
+    data: {productid: $(this).val()},
+    dataType: 'json',
+    success: function(data) {
+//        console.log("Reset user#"+data.name+data.description+"'s password successfully.");
+//        alert(data.name);
+        $('#name').val((data.name));
+        $('#description').val((data.description));
+    }
+});
+});
+});
+</script>
+
+
+
+
+
+
+
 
 <div class="container clearfix">
 
@@ -20,28 +101,29 @@
         <div class="crumb-wrap">
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/orders">Orders</a><span class="crumb-step">&gt;</span><span>Add</span></div>
         </div>
+        <?= $this->Flash->render() ?>
         <div class="result-wrap" style="border-bottom: 0px">
             <div class="result-content">
-              <?= $this->Form->create($order) ?>
+              <?= $this->Form->create('order') ?>
                     <table class="insert-tab" width="100%">
                         <tbody>
                           <tr>
                             <th width="150"><i class="require-red">*</i>Product：</th>
                             <td>
-                                <?= $this->Form->control('product_id', ['label' =>'', 'options' => $products, 'empty' => true]);?>
+                                <?= $this->Form->control('product_id', ['label' =>'', 'id'=>'product', 'options' => $products, 'empty' => true]);?>
                             </td>
                           </tr>
                           <tr>
                             <th><i class="require-red">*</i>Name：</th>
-                              <td>
-                                <?= $this->Form->text('name', ['value' => $order->name, 'size' => '50',  'class' => 'common-text required']);?>
-                              </td>
+                            <td>
+                                <?= $this->Form->text('name', ['value'=>$order->name, 'id'=>'name', 'size' => '50',  'class' => 'common-text required']);?>
+                            </td>
                           </tr>
 
                           <tr>
                             <th>Description：</th>
                               <td>
-                                <?= $this->Form->textarea('description', ['rows' => '10', 'style' => 'width:98%', 'cols' => '30']);?>
+                                <?= $this->Form->textarea('description', ['rows' => '10', 'id'=>'description', 'style' => 'width:98%', 'cols' => '30']);?>
                               </td>
                           </tr>
                           <tr>

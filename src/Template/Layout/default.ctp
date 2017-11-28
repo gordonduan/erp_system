@@ -28,6 +28,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->css('common.css') ?>
     <?= $this->Html->css('main.css') ?>
+    <?= $this->Html->script('jquery-3.2.1.min.js') ?>
+    <?= $this->Html->script('common.js') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -65,14 +67,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li>
                     <a href="#"><i class="icon-font">&#xe99d;</i>Sales</a>
                     <ul class="sub-menu">
-                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xe99b;</i>Reports</a></li>
+                        <li> <?= $this->Html->link('<i class="icon-font">&#xe99b;</i>'.__('Reports', true), ['controller' => 'Sales', 'action' => 'index'], ['escape' => false]); ?> </li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><i class="icon-font">&#xe972;</i>HR</a>
+                     <ul class="sub-menu">
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xe944;</i>Employees</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#"><i class="icon-font">&#xe904;</i>Finance</a>
+                    <ul class="sub-menu">
+                        <li><a href="/erp/pages/about_us"><i class="icon-font">&#xeae3;</i>Invoices</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#"><i class="icon-font">&#xe991;</i>Tools</a>
@@ -84,9 +92,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             </ul>
     </div>
     <!--/sidebar-->
-
+   
     <div class="container clearfix">
+        
         <?= $this->fetch('content') ?>
+        
     </div>
     <!--/main-->
 </div>

@@ -32,19 +32,33 @@ class CategoriesController extends AppController
 
     public function search()
     {
-    //  $this->log($this->request->data);
+//      $this->log($this->request->data);
+       
        if ($this->request->is('post'))
        {
+          
           if(!empty($this->request->data) && isset($this->request->data) )
-          {
+          { 
+//              $this->log('333');
+     
              $search_key = trim($this->request->data('keywords'));
              $resultsArray = $this->Categories
               ->find()
               ->where(["categories.name LIKE" => "%".$search_key."%"]);
-              $querys = $this->paginate($resultsArray);
-              $this->set('categories',$querys);
+//                  debug($resultsArray->toArray());
+              $categories = $this->paginate($resultsArray);
+              $this->set('categories',$categories);
+              $this->set('_serialize', ['categories']);
               $this->render('index');
-          }
+//              return $this->redirect(['action' => 'index']);
+//              return $this->redirect($this->referer());
+          } 
+    } else {
+//              $this->log('444');
+        $categories = $this->paginate($this->Categories);
+        $this->set('categories',$categories);
+        $this->set('_serialize', ['categories']);
+        $this->render('index');
         }
     }
 
@@ -58,12 +72,21 @@ class CategoriesController extends AppController
              $deleteid = $this->request->data('id');
              foreach ( $deleteid as $id ) {
                 $category = $this->Categories->get ($id);
-                $this->Categories->delete ($category);
+                 if ($this->Categories->delete($category)) {
+                    $success='Y';
+                    } else {
+                        $success='N';
+                        return;
+                    }
             }
-            return $this->redirect($this->referer());
+            if ($success='Y') {
+                    $this->Flash->success(__('The categories has been deleted.'));
+                    } elseif ($success='N')  {
+                        $this->Flash->error(__('The categories could not be deleted. Please, try again.'));
+                    }  
             }
         }
-
+        return $this->redirect(['action' => 'index']);
     }
 
     public function refresh()
@@ -81,6 +104,7 @@ class CategoriesController extends AppController
      */
     public function view($id = null)
     {
+        $this->log('222');
         $category = $this->Categories->get($id, [
             'contain' => ['ParentCategories', 'ChildCategories', 'Products']
         ]);
@@ -147,13 +171,15 @@ class CategoriesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
+        $this->log('111');
         $category = $this->Categories->get($id);
+        debug($category);
         if ($this->Categories->delete($category)) {
             $this->Flash->success(__('The category has been deleted.'));
         } else {
             $this->Flash->error(__('The category could not be deleted. Please, try again.'));
         }
-        return $this->redirect($this->referer());
-      //  return $this->redirect(['action' => 'index']);
+//        return $this->redirect($this->referer());
+        return $this->redirect(['action' => 'index']);
     }
 }

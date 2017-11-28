@@ -30,28 +30,28 @@ class StocksController extends AppController
         $this->set('_serialize', ['stocks']);
     }
 
-      public function search()
-      {
-         if ($this->request->is('post'))
-         {
-            if(!empty($this->request->data) && isset($this->request->data) )
-            {
-               $search_key = trim($this->request->data('keywords'));
-               $resultsArray = $this->Stocks
-                ->find()
-                ->where(["stocks.name LIKE" => "%".$search_key."%"]);
-    //            debug($resultsArray);
-                $stocks = $this->paginate($resultsArray);
+    public function search()
+    {       
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          { 
+             $search_key = trim($this->request->data('keywords'));
+             $resultsArray = $this->Stocks
+              ->find()
+              ->where(["stocks.name LIKE" => "%".$search_key."%"]);
+              $stocks = $this->paginate($resultsArray);
+              $this->set('stocks',$stocks);
+              $this->set('_serialize', ['stocks']);
+              $this->render('index');
+          } 
+        } else {
+                $stocks = $this->paginate($this->Stocks);
                 $this->set('stocks',$stocks);
+                $this->set('_serialize', ['stocks']);
                 $this->render('index');
-            }
-          //  ->all();
-          //  foreach ($resultsArray as $stock) {
-          //  debug($stock->name);
-          //  debug($this->Stocks->find()->where(["Stock.name LIKE" => "%".$search_key."%"]));
-
-          }
-      }
+                }
+        }
       
       public function refresh()
       {

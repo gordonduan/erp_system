@@ -20,6 +20,7 @@
         <div class="crumb-wrap">
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/products">Products</a><span class="crumb-step">&gt;</span><span>Add</span></div>
         </div>
+        <?= $this->Flash->render() ?>
         <div class="result-wrap" style="border-bottom: 0px">
             <div class="result-content">
               <?= $this->Form->create($product) ?>

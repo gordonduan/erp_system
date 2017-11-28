@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Datasource\ConnectionManager;
+
 /**
  * Orders Controller
  *
@@ -36,28 +36,20 @@ class OrdersController extends AppController
     }
 
     public function search()
-    {       
+    {
        if ($this->request->is('post'))
        {
           if(!empty($this->request->data) && isset($this->request->data) )
-          { 
+          {
              $search_key = trim($this->request->data('keywords'));
              $resultsArray = $this->Orders
               ->find()
               ->where(["orders.name LIKE" => "%".$search_key."%"]);
-              $orders = $this->paginate($resultsArray);
-              $this->set('orders',$orders);
-              $this->set('_serialize', ['orders']);
+              $querys = $this->paginate($resultsArray);
+              $this->set('orders',$querys);
               $this->render('index');
-//              return $this->redirect(['action' => 'index']);
-//              return $this->redirect($this->referer());
-          } 
-        } else {
-                $orders = $this->paginate($this->Orders);
-                $this->set('orders',$orders);
-                $this->set('_serialize', ['orders']);
-                $this->render('index');
-                }
+          }
+        }
     }
 
     public function refresh()
@@ -104,12 +96,7 @@ class OrdersController extends AppController
             }
             $this->Flash->error(__('The order could not be saved. Please, try again.'));
         }
-        
-//            $prod = $this->Orders->Products->findById($id)->toArray();$this->log(111);$this->log($prod);$this->log(222);
         $products = $this->Orders->Products->find('list', ['limit' => 200]);
-//         debug($products->toArray());
-//         $this->log($products);
-//        $this->set('_serialize', ['prod']);
         $this->set(compact('order', 'products'));
         $this->set('_serialize', ['order']);
     }
@@ -156,8 +143,8 @@ class OrdersController extends AppController
         } else {
             $this->Flash->error(__('The order could not be deleted. Please, try again.'));
         }
-//        return $this->redirect($this->referer());
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
+      //  return $this->redirect(['action' => 'index']);
     }
 
     public function approve($id = null)
@@ -170,61 +157,32 @@ class OrdersController extends AppController
         } else {
             $this->Flash->error(__('The order could not be approved. Please, try again.'));
         }
-          return $this->redirect(['action' => 'index']);
-//          return $this->redirect($this->referer());
+    //      return $this->redirect(['action' => 'index']);
+          return $this->redirect($this->referer());
     }
 
     public function product()
     {
-        $this->request->allowMethod(['ajax']);
+        $id = $this->request->getData('id');
+//        $this->log($id);
         if ($this->request->is('post'))
         {
           if(!empty($this->request->data) && isset($this->request->data) )
           {
-            $id = $this->request->getData('id');
-            $this->autoRender = false;
-            $product = '111';
-       ;
-            $this->set(compact('product'));
-            $this->set('_serialize', ['product']);
-//            $this->log($product);
-//            debug($product);
-//          debug($this->Orders->Products->findById($id));
+              
+         // debug($this->Orders->Products->findById($id));
            //   $querys = $this->paginate($resultsArray);
-//            $this->log($id);
-//            $name=$this->Orders->Products->find()
-//              ->select(['name'])
-//              ->where(["products.id" => $id]);
-//            $connection = ConnectionManager::get('default');
-//         
-//            $name = $connection->execute('select name from products where id= :id1', ['id1' =>$id])->fetchAll('assoc');
-//                    
-//            debug($name);
-//            $this->log($name);
-//            echo $name;
-                 
-//            $this->set('order',$data);
+            $data=$this->Orders->Products->findById($id);
+        
+            debug($data);
+            $this->set('order',$data);
 //            $this -> render('add');
 //            $this->autoRender = false;
-//             $this->set('_serialize', ['order']);
           }
         }
 //        $products = $this->Orders->Products->find('list', ['limit' => 200]);
 //        $this->set(compact('order', 'products'));
 //        $this->set('_serialize', ['order']);
-    }
-    
-    public function getproduct() {
-        if($this->request->is('ajax')) { //判断是否为Ajax请求
-            $id = $this->request->getData('productid'); //获取请求参数
-//            $this->log($id);
-            $product=$this->Orders->Products->get($id)->toArray();
-//            $this->log($this->Orders->Products->get($id));
-//            $this->log($product);
-            $this->response = $this->response->withType('application/json') //设置响应类型
-                ->withStringBody(json_encode(['name' => $product['name'],'description'=>$product['description']])); //设置响应数据
-        }
-        return $this->response; //返回Cake\Http\Response对象
     }
     
 }
