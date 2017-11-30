@@ -18,6 +18,14 @@
  */
 ?>
 
+if($this->request->session()->read('search_key') != "")
+{
+   $search_key = $this->request->session()->read('search_key');
+}
+else
+{
+   $search_key = "";
+}
 
 <div class="main-wrap">
 
@@ -27,6 +35,8 @@
     <?= $this->Flash->render() ?>
         <div class="search-wrap">
             <div class="search-content">
+                
+                
               <?= $this->Form->create('order', ['url' => ['action' => 'search']])?>
                     <table class="search-tab">
                         <tr>

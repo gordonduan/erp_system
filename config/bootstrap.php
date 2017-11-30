@@ -215,3 +215,6 @@ Type::build('timestamp')
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
+
+
+//Cache::config('default', array('engine' => 'File','duration' => '+1 hours'));

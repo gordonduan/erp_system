@@ -21,6 +21,7 @@ class SalesController extends AppController
     {
         // Always enable the CSRF component.
         $this->loadModel('Categories');
+        $this->loadModel('Products');
  
     }
     /**
@@ -140,29 +141,15 @@ class SalesController extends AppController
 
     }    
     
+    
     public function search()
-      {
-//        $sales = $this->paginate($this->Sales);
-//
-////        $this->set(compact('sales'));
-//        $this->set('_serialize', ['sales']);
-//        $categories = $this->Sales->find('list', ['limit' => 200]);
-//        $this->set(compact('sales', 'categories'));
-//        //$this->set('_serialize', ['product']);
-//        
-//        $products = $this->Sales->Products->find('list', ['limit' => 200]);//$this->log(111);//$this->log($products);
-//        $categories = $this->Sales->Categories->find('list', ['limit' => 200]);//$this->log(444);
-//        $this->set(compact('sale', 'products', 'categories', 'prod'));
-//        $this->set('_serialize', ['sale', 'prod']);
-        
-         if ($this->request->is('post'))
-         {
-//            $this->log('111');
-//            $this->log($this->request->data);
-            if(!empty($this->request->data) && isset($this->request->data) )
-            {
-//               $parent_id = trim($this->request->data('category_id'));
-                $query=array();
+    {
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          {
+               $parent_id = trim($this->request->data('category_id'));
+                $conditions=array();
                 if(!empty($this->request->data('category_id'))) {
                     $parent_id=$this->request->data('category_id');
                     $id = $this->Sales->Categories->find('list', [
@@ -171,31 +158,90 @@ class SalesController extends AppController
                         'valueField' => ['id']
                       ])->where(['OR' => [["categories.parent_id" => $parent_id], ["categories.id" => "$parent_id"]]]);
                     $id=array_values($id->toArray());
-                    $query['sales.category_id in']=$id;
+                    $conditions['sales.category_id in']=$id;
                 }
                 if(!empty($this->request->data('product_id'))) {
-                    $query['sales.product_id']=$this->request->data('product_id');
+                    $conditions['sales.product_id']=$this->request->data('product_id');
                 }
                 if(!empty($this->request->data('keywords'))) {
-                    $query['sales.name like']="%".$this->request->data('keywords')."%";
+                    $conditions['sales.name like']="%".$this->request->data('keywords')."%";
                 }
-//                debug($query);
-                $sales = $this->Sales->find('all', [
-                    'conditions' => $query
+             $this->request->session()->write('searchCond', $conditions);
+          }
+       }
+       if ($this->request->session()->check('searchCond')) {
+          $conditions = $this->request->session()->read('searchCond');
+       } else {
+          $conditions = null;
+       }
+      $sales = $this->Sales->find('all', [
+                    'conditions' => $conditions
                 ]);
-               $sales = $this->paginate($sales);
-               $products = $this->Sales->Products->find('list', ['limit' => 200]);
-               $categories = $this->Sales->Categories->find('list', ['limit' => 200]);
-               $this->set(compact('sales','products','categories'));
-         }
-      } else {
-              $sales = $this->paginate($this->Sales);
-              $products = $this->Sales->Products->find('list', ['limit' => 200]);//$this->log(111);//$this->log($products);
-              $categories = $this->Sales->Categories->find('list', ['limit' => 200]);//$this->log(444);
-              $this->set(compact('sales', 'products', 'categories'));
-              $this->set('_serialize', ['sale', 'prod']);
-             }
-}
+       
+       $products = $this->Sales->Products->find('list', ['limit' => 200]);
+       $categories = $this->Sales->Categories->find('list', ['limit' => 200]);
+       $this->set('sales',  $this->paginate($sales));
+       $this->set('products',$products);
+       $this->set('categories', $categories);
+       $this->render('index');
+    }        
+    
+//    public function search()
+//      {
+////        $sales = $this->paginate($this->Sales);
+////
+//////        $this->set(compact('sales'));
+////        $this->set('_serialize', ['sales']);
+////        $categories = $this->Sales->find('list', ['limit' => 200]);
+////        $this->set(compact('sales', 'categories'));
+////        //$this->set('_serialize', ['product']);
+////        
+////        $products = $this->Sales->Products->find('list', ['limit' => 200]);//$this->log(111);//$this->log($products);
+////        $categories = $this->Sales->Categories->find('list', ['limit' => 200]);//$this->log(444);
+////        $this->set(compact('sale', 'products', 'categories', 'prod'));
+////        $this->set('_serialize', ['sale', 'prod']);
+//        
+//         if ($this->request->is('post'))
+//         {
+////            $this->log('111');
+////            $this->log($this->request->data);
+//            if(!empty($this->request->data) && isset($this->request->data) )
+//            {
+////               $parent_id = trim($this->request->data('category_id'));
+//                $query=array();
+//                if(!empty($this->request->data('category_id'))) {
+//                    $parent_id=$this->request->data('category_id');
+//                    $id = $this->Sales->Categories->find('list', [
+//                        'limit' =>200,
+//                        'keyField' => 'id',
+//                        'valueField' => ['id']
+//                      ])->where(['OR' => [["categories.parent_id" => $parent_id], ["categories.id" => "$parent_id"]]]);
+//                    $id=array_values($id->toArray());
+//                    $query['sales.category_id in']=$id;
+//                }
+//                if(!empty($this->request->data('product_id'))) {
+//                    $query['sales.product_id']=$this->request->data('product_id');
+//                }
+//                if(!empty($this->request->data('keywords'))) {
+//                    $query['sales.name like']="%".$this->request->data('keywords')."%";
+//                }
+////                debug($query);
+//                $sales = $this->Sales->find('all', [
+//                    'conditions' => $query
+//                ]);
+//               $sales = $this->paginate($sales);
+//               $products = $this->Sales->Products->find('list', ['limit' => 200]);
+//               $categories = $this->Sales->Categories->find('list', ['limit' => 200]);
+//               $this->set(compact('sales','products','categories'));
+//         }
+//      } else {
+//              $sales = $this->paginate($this->Sales);
+//              $products = $this->Sales->Products->find('list', ['limit' => 200]);//$this->log(111);//$this->log($products);
+//              $categories = $this->Sales->Categories->find('list', ['limit' => 200]);//$this->log(444);
+//              $this->set(compact('sales', 'products', 'categories'));
+//              $this->set('_serialize', ['sale', 'prod']);
+//             }
+//}
 }
 
 

@@ -30,37 +30,63 @@ class CategoriesController extends AppController
         $this->set('_serialize', ['categories']);
     }
 
+//    public function search()
+//    {
+////      $this->log($this->request->data);
+//       
+//       if ($this->request->is('post'))
+//       {
+//          
+//          if(!empty($this->request->data) && isset($this->request->data) )
+//          { 
+////              $this->log('333');
+//     
+//             $search_key = trim($this->request->data('keywords'));
+//             $resultsArray = $this->Categories
+//              ->find()
+//              ->where(["categories.name LIKE" => "%".$search_key."%"]);
+////                  debug($resultsArray->toArray());
+//              $categories = $this->paginate($resultsArray);
+//              $this->set('categories',$categories);
+//              $this->set('_serialize', ['categories']);
+//              $this->render('index');
+////              return $this->redirect(['action' => 'index']);
+////              return $this->redirect($this->referer());
+//          } 
+//    } else {
+////              $this->log('444');
+//        $categories = $this->paginate($this->Categories);
+//        $this->set('categories',$categories);
+//        $this->set('_serialize', ['categories']);
+//        $this->render('index');
+//        }
+//    }
+    
     public function search()
     {
-//      $this->log($this->request->data);
-       
        if ($this->request->is('post'))
        {
-          
           if(!empty($this->request->data) && isset($this->request->data) )
-          { 
-//              $this->log('333');
-     
+          {
              $search_key = trim($this->request->data('keywords'));
-             $resultsArray = $this->Categories
-              ->find()
-              ->where(["categories.name LIKE" => "%".$search_key."%"]);
-//                  debug($resultsArray->toArray());
-              $categories = $this->paginate($resultsArray);
-              $this->set('categories',$categories);
-              $this->set('_serialize', ['categories']);
-              $this->render('index');
-//              return $this->redirect(['action' => 'index']);
-//              return $this->redirect($this->referer());
-          } 
-    } else {
-//              $this->log('444');
-        $categories = $this->paginate($this->Categories);
-        $this->set('categories',$categories);
-        $this->set('_serialize', ['categories']);
-        $this->render('index');
-        }
-    }
+//             $conditions["orders.name LIKE"] = "%".$search_key."%";
+             $conditions = ["categories.name LIKE" => "%".$search_key."%"];
+             $this->request->session()->write('searchCond', $conditions);
+             $this->request->session()->write('search_key', $search_key);
+          }
+       }
+
+       if ($this->request->session()->check('searchCond')) {
+          $conditions = $this->request->session()->read('searchCond');
+       } else {
+          $conditions = null;
+       }
+       $categories = $this->Categories->find('all', [
+                    'conditions' => $conditions
+                ]);
+       $this->set('categories',  $this->paginate($categories));
+       $this->render('index');
+    }    
 
     public function batchdel()
     {

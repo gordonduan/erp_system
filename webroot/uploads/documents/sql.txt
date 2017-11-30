@@ -1,0 +1,142 @@
+create database cake_erp;
+
+use cake_erp;
+CREATE TABLE products (  
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
+	name VARCHAR(50),
+	description VARCHAR(50),  
+	category_id INT(11) NOT NULL,
+	price FLOAT,
+	created DATETIME DEFAULT NULL,  
+	modified DATETIME DEFAULT NULL  
+);  
+
+CREATE TABLE categories (  
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
+	parent_id INT(11) DEFAULT NULL,
+	lft INT(10) NOT NULL,
+	rght INT(10) NOT NULL,
+	name VARCHAR(50),
+	description VARCHAR(50),  
+	created DATETIME DEFAULT NULL,  
+	modified DATETIME DEFAULT NULL  
+);  
+CREATE TABLE orders (
+  
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  
+	product_id INT(11) DEFAULT NULL,
+
+	name VARCHAR(50),
+
+	description VARCHAR(50),
+	quantity INT(20),
+	type CHAR(4),
+	status CHAR(4),
+  
+	created DATETIME DEFAULT NULL,
+  
+	modified DATETIME DEFAULT NULL  
+);
+CREATE TABLE stocks (
+  
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  
+	product_id INT(11) DEFAULT NULL,
+
+	name VARCHAR(50),
+
+	description VARCHAR(50),
+	quantity INT(20),
+  
+	created DATETIME DEFAULT NULL,
+  
+	modified DATETIME DEFAULT NULL  
+);
+
+CREATE TABLE sales (
+  
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  
+	product_id INT(11) DEFAULT NULL,
+
+	category_id INT(11) DEFAULT NULL,
+	name VARCHAR(50),
+
+	description VARCHAR(50),
+	quantity INT(20),
+	price FLOAT,
+	amount FLOAT,
+  
+	date DATETIME DEFAULT NULL
+);  
+
+CREATE TABLE notices (  
+	
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
+	
+	category INT(11) NOT NULL,
+	
+	name VARCHAR(50),
+	title VARCHAR(50),
+	
+	document VARCHAR(100), 
+	
+	image VARCHAR(100),  
+	
+	video VARCHAR(100),  
+	
+	content text,
+	
+	status tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 = Active, 0 = Inactive',
+	created DATETIME DEFAULT NULL,  
+	
+	modified DATETIME DEFAULT NULL 
+
+);  
+
+
+CREATE TRIGGER updatestock 
+AFTER UPDATE ON orders
+FOR EACH ROW
+BEGIN
+DECLARE sql_count int(10);
+IF new.status != old.status and new.status ='1' then
+	SET sql_count = (select count(*) from stocks where product_id=new.product_id);
+	IF sql_count = 0 THEN
+		INSERT INTO stocks select null,product_id,name,description,quantity,now(),now() from orders where id=new.id;
+	ELSE
+		IF new.type='0' then
+			update stocks set quantity=quantity+new.quantity where product_id=new.product_id;
+		elseif new.type='1' then
+			update stocks set quantity=quantity-new.quantity where product_id=new.product_id;
+		END IF;
+	END IF;
+END IF;
+END
+
+
+CREATE TRIGGER updatestock 
+AFTER UPDATE ON orders
+FOR EACH ROW
+BEGIN
+DECLARE sql_count int(10);
+IF new.status != old.status and new.status ='1' then
+	SET sql_count = (select count(*) from stocks where product_id=new.product_id);
+
+	IF new.type='0'THEN
+		IF sql_count = 0 then
+			INSERT INTO stocks select null,product_id,name,description,quantity,now(),now() from orders where id=new.id;
+		elseif sql_count != 0 then
+			update stocks set quantity=quantity+new.quantity where product_id=new.product_id;
+		END IF;
+	ELSEIF new.type='1' then
+		IF sql_count = 0 then
+			INSERT INTO stocks select null,product_id,name,description,-quantity,now(),now() from orders where id=new.id;
+		elseif sql_count != 0 then
+			update stocks set quantity=quantity-new.quantity where product_id=new.product_id;
+		END IF;
+		Insert into sales select null,orders.product_id,products.category_id,orders.name,orders.description,orders.quantity,products.price,orders.quantity*products.price,now() from orders, products where orders.product_id = products.id and orders.id =new.id;
+	END IF;
+END IF;
+END

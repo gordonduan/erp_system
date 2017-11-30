@@ -28,31 +28,56 @@ class ProductsController extends AppController
         $this->set('_serialize', ['products']);
     }
 
-    public function search()
-    {       
-           if ($this->request->is('post'))
-           {
-              if(!empty($this->request->data) && isset($this->request->data) )
-              { 
-                 $search_key = trim($this->request->data('keywords'));
-                 $resultsArray = $this->Products
-                  ->find()
-                  ->where(["products.name LIKE" => "%".$search_key."%"]);
-                  $products = $this->paginate($resultsArray);
-                  $this->set('products',$products);
-                  $this->set('_serialize', ['products']);
-                  $this->render('index');
-    //              return $this->redirect(['action' => 'index']);
-    //              return $this->redirect($this->referer());
-              } 
-            } else {
-                    $products = $this->paginate($this->Products);
-                    $this->set('products',$products);
-                    $this->set('_serialize', ['products']);
-                    $this->render('index');
-                    }
-     }    
+//    public function search()
+//    {       
+//           if ($this->request->is('post'))
+//           {
+//              if(!empty($this->request->data) && isset($this->request->data) )
+//              { 
+//                 $search_key = trim($this->request->data('keywords'));
+//                 $resultsArray = $this->Products
+//                  ->find()
+//                  ->where(["products.name LIKE" => "%".$search_key."%"]);
+//                  $products = $this->paginate($resultsArray);
+//                  $this->set('products',$products);
+//                  $this->set('_serialize', ['products']);
+//                  $this->render('index');
+//    //              return $this->redirect(['action' => 'index']);
+//    //              return $this->redirect($this->referer());
+//              } 
+//            } else {
+//                    $products = $this->paginate($this->Products);
+//                    $this->set('products',$products);
+//                    $this->set('_serialize', ['products']);
+//                    $this->render('index');
+//                    }
+//     }    
 
+    public function search()
+    {
+       if ($this->request->is('post'))
+       {
+          if(!empty($this->request->data) && isset($this->request->data) )
+          {
+             $search_key = trim($this->request->data('keywords'));
+             $conditions = ["products.name LIKE" => "%".$search_key."%"];
+             $this->request->session()->write('searchCond', $conditions);
+             $this->request->session()->write('search_key', $search_key);
+          }
+       }
+
+       if ($this->request->session()->check('searchCond')) {
+          $conditions = $this->request->session()->read('searchCond');
+       } else {
+          $conditions = null;
+       }
+       $products = $this->Products->find('all', [
+                    'conditions' => $conditions
+                ]);
+       $this->set('products',  $this->paginate($products));
+       $this->render('index');
+    }        
+    
     public function refresh()
     {
 

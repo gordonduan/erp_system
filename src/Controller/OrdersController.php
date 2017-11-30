@@ -35,31 +35,61 @@ class OrdersController extends AppController
         $this->set('_serialize', ['orders']);
     }
 
+//    public function search()
+//    {       
+//       if ($this->request->is('post'))
+//       {
+//          if(!empty($this->request->data) && isset($this->request->data) )
+//          { 
+//             $search_key = trim($this->request->data('keywords'));
+//             $resultsArray = $this->Orders
+//              ->find()
+//              ->where(["orders.name LIKE" => "%".$search_key."%"]);
+//              $orders = $this->paginate($resultsArray);
+//              $this->set('orders',$orders);
+//              $this->set('_serialize', ['orders']);
+//              $this->render('index');
+////              return $this->redirect(['action' => 'index']);
+////              return $this->redirect($this->referer());
+//          } 
+//        } else {
+//                $orders = $this->paginate($this->Orders);
+//                $this->set('orders',$orders);
+//                $this->set('_serialize', ['orders']);
+//                $this->render('index');
+//                }
+//    }
+
+    
+    
     public function search()
-    {       
+    {
        if ($this->request->is('post'))
        {
           if(!empty($this->request->data) && isset($this->request->data) )
-          { 
+          {
              $search_key = trim($this->request->data('keywords'));
-             $resultsArray = $this->Orders
-              ->find()
-              ->where(["orders.name LIKE" => "%".$search_key."%"]);
-              $orders = $this->paginate($resultsArray);
-              $this->set('orders',$orders);
-              $this->set('_serialize', ['orders']);
-              $this->render('index');
-//              return $this->redirect(['action' => 'index']);
-//              return $this->redirect($this->referer());
-          } 
-        } else {
-                $orders = $this->paginate($this->Orders);
-                $this->set('orders',$orders);
-                $this->set('_serialize', ['orders']);
-                $this->render('index');
-                }
-    }
+//             $conditions["orders.name LIKE"] = "%".$search_key."%";
+             $conditions = ["orders.name LIKE" => "%".$search_key."%"];
+             $this->request->session()->write('searchCond', $conditions);
+             $this->request->session()->write('search_key', $search_key);
+          }
+       }
 
+       if ($this->request->session()->check('searchCond')) {
+          $conditions = $this->request->session()->read('searchCond');
+       } else {
+          $conditions = null;
+       }
+       $sales = $this->Orders->find('all', [
+                    'conditions' => $conditions
+                ]);
+       $this->set('orders',  $this->paginate($sales));
+       $this->render('index');
+    }
+    
+    
+    
     public function refresh()
     {
 

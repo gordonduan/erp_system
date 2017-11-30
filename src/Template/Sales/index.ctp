@@ -34,7 +34,7 @@
                   <?= $this->Form->create('sales', ['url' => ['action' => 'search']])?>
                   <table class="search-tab">
                       <tr>
-                          <th width="80">Categories:</th>
+                          <th width="100">Categories:</th>
                           <td><?= $this->Form->control('category_id', ['options' => $categories, 'label' => '', 'empty' => true]);?></td>
                           <th width="70">Products:</th>
                           <td><?= $this->Form->control('product_id', ['options' => $products, 'label' => '', 'empty' => true]);?></td>                         
