@@ -29,6 +29,13 @@ class CategoriesController extends AppController
         $this->set(compact('categories'));
         $this->set('_serialize', ['categories']);
     }
+    
+    public function treelist()
+    {
+        $list = $this->Categories->find('treeList');
+
+        $this->set(compact('list'));
+    }
 
 //    public function search()
 //    {
@@ -118,7 +125,8 @@ class CategoriesController extends AppController
     public function refresh()
     {
 
-      return $this->redirect($this->referer());
+//      return $this->redirect($this->referer());
+        return $this->redirect(['action' => 'index']);
 
     }
     /**

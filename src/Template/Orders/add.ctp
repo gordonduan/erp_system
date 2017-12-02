@@ -67,24 +67,7 @@ $("#product").change(function(){
 </script>
 -->
 
-<script>
-$(document).ready(function(){
-$("#product").change(function(){
-    $.ajax({
-    type: "POST",
-    url: "<?= $this->Url->build(['controller'=>'Orders', 'action'=>'getproduct']) ?>",
-    data: {productid: $(this).val()},
-    dataType: 'json',
-    success: function(data) {
-//        console.log("Reset user#"+data.name+data.description+"'s password successfully.");
-//        alert(data.name);
-        $('#name').val((data.name));
-        $('#description').val((data.description));
-    }
-});
-});
-});
-</script>
+
 
 
 
@@ -166,7 +149,24 @@ $("#product").change(function(){
 
 
 
-
+<script>
+$(document).ready(function(){
+$("#product").change(function(){
+    $.ajax({
+    type: "POST",
+    url: "<?= $this->Url->build(['controller'=>'Orders', 'action'=>'getproduct']) ?>",
+    data: {productid: $(this).val()},
+    dataType: 'json',
+    success: function(data) {
+//        console.log("Reset user#"+data.name+data.description+"'s password successfully.");
+//        alert(data.name);
+        $('#name').val((data.name));
+        $('#description').val((data.description));
+    }
+});
+});
+});
+</script>
 
 
 

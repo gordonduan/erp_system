@@ -33,7 +33,7 @@ class SalesController extends AppController
     {       
         $sales = $this->paginate($this->Sales);
         $products = $this->Sales->Products->find('list', ['limit' => 200]);//$this->log(111);//$this->log($products);
-        $categories = $this->Sales->Categories->find('list', ['limit' => 200]);//$this->log(444);
+        $categories = $this->Sales->Categories->find('treeList', ['limit' => 200]);//$this->log(444);
         $this->set(compact('sales', 'products', 'categories'));
         $this->set('_serialize', ['sale', 'prod']);
     }
@@ -137,7 +137,7 @@ class SalesController extends AppController
     public function refresh()
     {
 
-      return $this->redirect($this->referer());
+      return $this->redirect(['action' => 'index']);
 
     }    
     
@@ -179,13 +179,155 @@ class SalesController extends AppController
                 ]);
        
        $products = $this->Sales->Products->find('list', ['limit' => 200]);
-       $categories = $this->Sales->Categories->find('list', ['limit' => 200]);
+       $categories = $this->Sales->Categories->find('treeList', ['limit' => 200]);
        $this->set('sales',  $this->paginate($sales));
        $this->set('products',$products);
        $this->set('categories', $categories);
        $this->render('index');
     }        
     
+//    public function getChildrenIds ($sort_id)
+//   {
+//
+//       $ids = '';
+//	$query = $this->Sales->Categories->find()
+//		->select('id')
+//                ->where(["categories.parent_id" => $category_id]);
+//       $result = $query->toArray();
+//       $this->log($result);
+//       if ($result)
+//       {
+//           foreach ($result as $key=>$val)
+//           {
+//               $ids .= ','.$val['id'];
+//               $ids .= $this->getChildrenIds ($val['id']);
+//           }
+//       }
+//       return $ids;
+//}
+    
+    public function get_subs($category_id,&$list=array())
+    { 
+        $categories = $this->Sales->Categories->find('list', [
+                            'keyField' => 'id',
+                            'valueField' => ['id']
+                            ])
+                    ->where(["categories.parent_id" => $category_id]);
+           $categories = array_values($categories->toArray());
+        foreach($categories as $val){ 
+            $list[] = $val;
+            $this->get_subs($val,$list);
+        }
+        return $list;
+    }
+    
+    public function get_parents($category_id,&$list=array())
+    { 
+        $categories = $this->Sales->Categories->find('list', [
+                            'keyField' => 'parent_id',
+                            'valueField' => ['parent_id']
+                            ])
+                    ->where(["categories.id" => $category_id]);
+           $categories = array_values($categories->toArray());
+//           $this->log($categories);
+//           $this->log(count($categories));
+        if (!empty($categories[0])){   
+            foreach($categories as $val){ 
+                $list[] = $val;
+//                $this->log($list);
+                $this->get_parents($val,$list);
+            }
+        }
+        return $list;
+//        $this->log($list);
+    }
+    
+//    public function get_subs( $category_id ){
+//       $categories = $this->Sales->Categories->find('list', [
+//                        'keyField' => 'id',
+//                        'valueField' => ['id']
+//                        ])
+//                ->where(["categories.parent_id" => $category_id]);
+//       $categories = array_values($categories->toArray());
+//       $this->log($categories);
+//       foreach ($categories as $id)
+//           {$this->log($id);
+//            $subs = array_merge($subs,$this->get_subs($id));
+//            $this->log($subs);
+//           }
+//        return $subs;
+
+//        $this->log($category_id);
+//	$subs=array($category_id);
+//        $this->log($subs);
+//	$categories = $this->Sales->Categories->find('list', [
+//                        'keyField' => 'id',
+//                        'valueField' => ['id']
+//                        ])
+//                ->where(["categories.parent_id" => $category_id]);
+//        $categories = array_values($categories->toArray());
+//        $this->log($categories);
+//	$subs=array_merge($subs,$categories);
+//        $this->log($subs);   
+//	foreach( $categories as $id ){
+//                $this->log($id);
+//                $category_ids = $this->get_subs( $id );
+//                return array_merge($subs,$categories);;
+//        }
+//        return $subs;
+//                break;
+//        	$category_ids = $this->get_subs( $id );
+//                $this->log($category_ids);
+//	return array_push($subs,$category_ids);
+//        $this->log($subs);
+//    }
+    
+    public function productfilter() {
+        if($this->request->is('ajax')) { //判断是否为Ajax请求
+            $categoryid = $this->request->getData('categoryid'); //获取请求参数
+            $this->get_subs($categoryid, $productid);
+            $productid[]=$categoryid;
+
+//            $id = $this->Sales->Categories->find('list', [
+//                        'limit' =>200,
+//                        'keyField' => 'id',
+//                        'valueField' => ['id']
+//                        ])
+//                    ->where(['OR' => [["categories.parent_id" => $categoryid], ["categories.id" => "$categoryid"]]]);
+//            $id=array_values($id->toArray());
+//           
+            $products = $this->Sales->Products->find('list',[
+                        'limit' =>200
+                        ])
+                    -> where(['products.category_id in'=> $productid]);
+
+//            debug($products);
+//            $this->log($this->Orders->Products->get($id));
+//            $this->log($product);
+            $this->response = $this->response->withType('application/json') //设置响应类型
+                ->withStringBody(json_encode($products)); //设置响应数据
+        }
+        return $this->response; //返回Cake\Http\Response对象
+    }
+    
+   public function categoryfilter() {
+        if($this->request->is('ajax')) { //判断是否为Ajax请求
+            $productid = $this->request->getData('productid'); //获取请求参数
+            $categoryid = $this->Sales->Products->get($productid)->category_id;
+//            $this->log($categoryid);
+            $this->get_parents($categoryid, $categories); 
+            $categories[]=$categoryid;
+//            $this->log($categories);
+            $categoriesid = $this->Sales->Categories->find('list',[
+                        'limit' =>200
+                        ])
+                    -> where(['categories.id in'=> $categories]);
+            $this->response = $this->response->withType('application/json') //设置响应类型
+                ->withStringBody(json_encode($categoriesid)); //设置响应数据
+        }
+        return $this->response; //返回Cake\Http\Response对象
+    }
+}   
 //    public function search()
 //      {
 ////        $sales = $this->paginate($this->Sales);
@@ -242,7 +384,6 @@ class SalesController extends AppController
 //              $this->set('_serialize', ['sale', 'prod']);
 //             }
 //}
-}
 
 
 //               $parent_id = (empty($this->request->data('category_id')))? '1=1' : $this->request->data('category_id');

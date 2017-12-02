@@ -35,9 +35,9 @@
                   <table class="search-tab">
                       <tr>
                           <th width="100">Categories:</th>
-                          <td><?= $this->Form->control('category_id', ['options' => $categories, 'label' => '', 'empty' => true]);?></td>
+                          <td><?= $this->Form->control('category_id', ['options' => $categories, 'id'=>'category', 'label' => '', 'empty' => true]);?></td>
                           <th width="70">Products:</th>
-                          <td><?= $this->Form->control('product_id', ['options' => $products, 'label' => '', 'empty' => true]);?></td>                         
+                          <td><?= $this->Form->control('product_id', ['options' => $products, 'id'=>'product', 'label' => '', 'empty' => true]);?></td>                         
                           <th width="70">Name:</th>
                           <td><input class="common-text" placeholder="Name" name="keywords" value="" id="" type="text"></td>
                           
@@ -109,6 +109,39 @@
 </div>
 
 
+<script>
+$(document).ready(function(){
+    $("#category").change(function(){
+        $.ajax({
+        type: "POST",
+        url: "<?= $this->Url->build(['controller'=>'Sales', 'action'=>'productfilter']) ?>",
+        data: {categoryid: $(this).val()},
+        dataType: 'json',
+        success: function(data) {
+            $("#product").empty();
+            for (var i in data) {  
+                 $("#product").append("<option value='"+i+"'>"+ data[i]+ "</option>");  
+            } 
+        }
+    });
+    });
+    
+    $("#product").change(function(){
+    $.ajax({
+    type: "POST",
+    url: "<?= $this->Url->build(['controller'=>'Sales', 'action'=>'categoryfilter']) ?>",
+    data: {productid: $(this).val()},
+    dataType: 'json',
+    success: function(data) {
+        $("#category").empty();
+        for (var i in data) {  
+             $("#category").append("<option value='"+i+"'>"+ data[i]+ "</option>");  
+        } 
+    }
+    });
+    });
+});
+</script>
 
 
 

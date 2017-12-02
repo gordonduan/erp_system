@@ -58,6 +58,7 @@ function formsubmit()
                         <a id="batchDel" href="javascript:void(0)" onclick="formsubmit()"><i class="icon-font">&#xe9ac;</i>Batch Delete</a>
                         <a><input class="icon-font" name="batchdel" value="batchdel" type="submit" style="display:none"></a>
                         <?= $this->Html->link('<i class="icon-font">&#xea2e;</i>'.__('Refresh', true), ['action' => 'refresh'], ['escape' => false]); ?>
+           <!--             <?= $this->Html->link('<i class="icon-font">&#xea2e;</i>'.__('treelist', true), ['action' => 'treelist'], ['escape' => false]); ?> -->
                     </div>
                 </div>
                 <div class="result-content">

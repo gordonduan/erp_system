@@ -82,8 +82,8 @@ class StocksController extends AppController
       public function refresh()
       {
 
-        return $this->redirect($this->referer());
-
+//        return $this->redirect($this->referer());
+        return $this->redirect(['action' => 'index']);
       }
     /**
      * View method
