@@ -70,9 +70,9 @@
                                 
                                 <td><?= h($notice->name) ?></td>
                                 <td><?= h($notice->title) ?></td>
-                                <td><?= h($notice->document) ?></td>
-                                <td><?= h($notice->image) ?></td>
-                                <td><?= h($notice->video) ?></td>
+                                <td><?php if (!empty($notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?></td>
+                                <td><?php if (!empty($notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
+                                <td><?php if (!empty($notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
                                 
                                 <td><?= h($notice->created) ?></td>
                                 <td><?= h($notice->modified) ?></td>

@@ -65,7 +65,7 @@ CREATE TABLE `notices` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `notices` (
 
 LOCK TABLES `notices` WRITE;
 /*!40000 ALTER TABLE `notices` DISABLE KEYS */;
-INSERT INTO `notices` VALUES (4,1,'','afdaf','uploads/documents/xinhu.txt','','','1111111111111111',1,'2017-11-29 23:19:00','2017-11-30 11:29:52'),(6,2,'','afdafd','uploads/documents/sql.txt','','','adfafadfa',1,'2017-11-29 23:37:55','2017-11-29 23:37:55'),(7,1,'','afdf','uploads/documents/sql.txt','','','adff',1,'2017-11-29 23:41:29','2017-11-29 23:41:29'),(8,2,'','afadf','uploads/documents/sql.txt','','','adfaf',1,'2017-11-29 23:44:03','2017-11-29 23:44:03'),(11,1,'','afdaf','uploads/documents/sql.txt','','','adfaf',1,'2017-11-29 23:55:36','2017-11-29 23:55:36'),(12,1,'','adfaf','uploads/documents/xinhu.txt','','','adfafds',1,'2017-11-29 23:56:14','2017-11-29 23:56:14'),(13,4,'','adfaf','uploads/documents/xinhu.txt','','','afadfad',1,'2017-11-29 23:57:16','2017-11-29 23:57:16'),(14,2,'','dafd','uploads/documents/sql.txt','','','adfad',1,'2017-11-30 00:08:16','2017-11-30 00:08:16'),(15,1,'','afdafdaf','uploads/documents/sql.txt','','','aadfafd',1,'2017-11-30 00:10:20','2017-11-30 00:10:20'),(16,3,'','afdafdaf','uploads/documents/sql.txt','','','adfafafa',1,'2017-11-30 00:12:23','2017-11-30 00:12:23'),(17,1,'','qrqr','uploads/documents/sql.txt','','','qerqreqreqr',1,'2017-11-30 00:15:03','2017-11-30 00:15:03'),(18,2,'Administration','adfdfafd','uploads/documents/xinhu.txt','','','adfaf',1,'2017-11-30 00:15:45','2017-11-30 00:15:45'),(21,1,'Sales','12',NULL,NULL,NULL,'adfa',1,'2017-11-30 00:57:05','2017-11-30 00:57:05'),(24,2,'Administration','123','uploads/documents/sql.txt','uploads/images/1.png','uploads/videos/xinhu.txt','adfafdafafdafd',1,'2017-11-30 10:51:34','2017-11-30 10:51:34'),(23,1,'Sales','adfas',NULL,NULL,NULL,'adf',1,'2017-11-30 01:03:12','2017-11-30 01:03:12');
+INSERT INTO `notices` VALUES (37,1,'Sales','notice1','uploads/documents/sql.txt',NULL,NULL,'this is notice1',1,'2017-12-02 01:37:29','2017-12-02 01:37:29');
 /*!40000 ALTER TABLE `notices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +253,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-01  0:56:14
+-- Dump completed on 2017-12-02 14:39:25

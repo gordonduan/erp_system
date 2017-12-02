@@ -99,19 +99,69 @@ class NoticesController extends AppController
         $notice = $this->Notices->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $notice = $this->Notices->patchEntity($notice, $this->request->getData());
-            if ($this->Notices->save($notice)) {
-                $this->Flash->success(__('The notice has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The notice could not be saved. Please, try again.'));
-        }
         $category = [1 => 'Sales', 2 => 'Administration', 3 => 'HR', 4 => 'Finance', 5 => 'Business'];
         $this->set('category', $category);
         $this->set(compact('notice'));
         $this->set('_serialize', ['notice']);
+ 
+            if(!empty($notice->document) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document);
+            }
+            if(!empty($notice->image) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image);
+            }
+            if(!empty($notice->video) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video);
+            }
+            
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $uploadData = $this->Notices->patchEntity($notice, $this->request->getData());
+                if(!empty($this->request->data['document']['name'])){ 
+                    $documentName = $this->request->data['document']['name'];
+                    $uploaddocumentPath = 'uploads/documents/';
+                    $uploaddocument = $uploaddocumentPath.$documentName;
+                    if (file_exists($uploaddocument)){
+                        $this->Flash->error(__('The document already exist, please try again.'));
+                        return;
+                    } else {
+                        move_uploaded_file($this->request->data['document']['tmp_name'],$uploaddocument);
+                        $uploadData->document = $uploaddocument;
+                    }
+                }
+
+                if(!empty($this->request->data['image']['name'])){ 
+                    $imageName = $this->request->data['image']['name'];
+                    $uploadimagePath = 'uploads/images/';
+                    $uploadimage = $uploadimagePath.$imageName;
+                    if (file_exists($uploadimage)){
+                        $this->Flash->error(__('The image already exist, please try again.'));
+                        return;
+                    } else {
+                       move_uploaded_file($this->request->data['image']['tmp_name'],$uploadimage);
+                       $uploadData->image = $uploadimage;
+                     }
+                }
+
+                if(!empty($this->request->data['video']['name'])){ 
+                    $videoName = $this->request->data['video']['name'];
+                    $uploadvideoPath = 'uploads/videos/';
+                    $uploadvideo = $uploadvideoPath.$videoName;
+                    if (file_exists($uploadvideo)){
+                        $this->Flash->error(__('The video already exist, please try again.'));
+                        return;
+                    } else {
+                        move_uploaded_file($this->request->data['video']['tmp_name'],$uploadvideo);
+                        $uploadData->video = $uploadvideo;
+                    }
+                }
+
+                if ($this->Notices->save($uploadData)) {
+                    $this->Flash->success(__('The notice has been saved.'));
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The notice could not be saved. Please, try again.'));
+                }
+            }
     }
 
     /**
@@ -122,10 +172,38 @@ class NoticesController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
+    { 
         $this->request->allowMethod(['post', 'delete']);
         $notice = $this->Notices->get($id);
+        
+        if(!empty($notice->document)){
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document)){
+                $this->Flash->error(__('The document is not exist, please try again.'));
+                    return $this->redirect(['action' => 'index']);
+            }
+        }
+        if(!empty($notice->image)){
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image)){
+                $this->Flash->error(__('The image is not exist, please try again.'));
+                    return $this->redirect(['action' => 'index']);
+            }
+        }
+        if(!empty($notice->video)){
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video)){
+                $this->Flash->error(__('The video is not exist, please try again.'));
+                    return $this->redirect(['action' => 'index']);
+            }
+        }    
         if ($this->Notices->delete($notice)) {
+            if(!empty($notice->document)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document);
+            }
+            if(!empty($notice->image)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image);
+            }
+            if(!empty($notice->video)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video);
+            }
             $this->Flash->success(__('The notice has been deleted.'));
         } else {
             $this->Flash->error(__('The notice could not be deleted. Please, try again.'));
@@ -148,24 +226,39 @@ class NoticesController extends AppController
                 $documentName = $this->request->data['document']['name'];
                 $uploaddocumentPath = 'uploads/documents/';
                 $uploaddocument = $uploaddocumentPath.$documentName;
-                if(move_uploaded_file($this->request->data['document']['tmp_name'],$uploaddocument)){
+                if (file_exists($uploaddocument)){
+                    $this->Flash->error(__('The document already exist, please try again.'));
+                    return;
+                } else {
+                    if(move_uploaded_file($this->request->data['document']['tmp_name'],$uploaddocument)){
                     $uploadData->document = $uploaddocument;
+                }
                 }
             }
             if(!empty($this->request->data['image']['name'])){ 
                 $imageName = $this->request->data['image']['name'];
                 $uploadimagePath = 'uploads/images/';
                 $uploadimage = $uploadimagePath.$imageName;
-                if(move_uploaded_file($this->request->data['image']['tmp_name'],$uploadimage)){
+                if (file_exists($uploadimage)){
+                    $this->Flash->error(__('The image already exist, please try again.'));
+                    return;
+                } else {
+                    if(move_uploaded_file($this->request->data['image']['tmp_name'],$uploadimage)){
                     $uploadData->image = $uploadimage;
+                }
                 }
             }
             if(!empty($this->request->data['video']['name'])){ 
                 $videoName = $this->request->data['video']['name'];
                 $uploadvideoPath = 'uploads/videos/';
                 $uploadvideo = $uploadvideoPath.$videoName;
-                if(move_uploaded_file($this->request->data['video']['tmp_name'],$uploadvideo)){
+                if (file_exists($uploadvideo)){
+                    $this->Flash->error(__('The video already exist, please try again.'));
+                    return;
+                } else {
+                    if(move_uploaded_file($this->request->data['video']['tmp_name'],$uploadvideo)){
                     $uploadData->video = $uploadvideo;
+                }
                 }
             }
                     

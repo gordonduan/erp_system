@@ -33,8 +33,8 @@
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Document:</th>
+                               
                                 <td>
-              
                                     <?= $this->Form->input('document', ['type' => 'file', 'label' => '', 'class' => 'form-control']); ?>
                                 </td>
                             </tr>

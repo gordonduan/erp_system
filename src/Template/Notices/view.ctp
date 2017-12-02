@@ -33,18 +33,18 @@
                             <tr>
                                 <th><i class="require-red"></i>Document:</th>
                                 <td>
-              
-                                    <?= $this->Form->input('document', ['type' => 'file', 'label' => '', 'class' => 'form-control']); ?>
+                                    <?php if (!empty($notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?>
+                                    
                                 </td>
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Image:</th>
-                                <td><?= $this->Form->input('image', ['type' => 'file', 'label' => '', 'class' => 'form-control']); ?></td>
                                 
+                                <td> <?php if (!empty($notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Video:</th>
-                                <td><input name="video" id="" type="file"></td>
+                                <td><?php if (!empty($notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
                             </tr>
                             <tr>
                                 <th>Content:</th>

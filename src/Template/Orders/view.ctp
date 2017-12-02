@@ -21,9 +21,9 @@
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/orders">Orders</a><span class="crumb-step">&gt;</span><span>Add</span></div>
         </div>
         <?= $this->Flash->render() ?>
-        <div class="result-wrap" style="border-bottom: 0px">
-            <div class="result-content">
-              <?= $this->Form->create($order) ?>
+        <div class="result-wrap" style="border-bottom: 0px"  >
+            <div class="result-content" contenteditable="true">
+              <?= $this->Form->create(($order), ['disabled' => true])?>
                     <table class="insert-tab" width="100%">
                         <tbody>
                           <tr>
