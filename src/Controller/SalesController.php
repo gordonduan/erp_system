@@ -152,13 +152,16 @@ class SalesController extends AppController
                 $conditions=array();
                 if(!empty($this->request->data('category_id'))) {
                     $parent_id=$this->request->data('category_id');
-                    $id = $this->Sales->Categories->find('list', [
-                        'limit' =>200,
-                        'keyField' => 'id',
-                        'valueField' => ['id']
-                      ])->where(['OR' => [["categories.parent_id" => $parent_id], ["categories.id" => "$parent_id"]]]);
-                    $id=array_values($id->toArray());
-                    $conditions['sales.category_id in']=$id;
+                    $this->get_subs($parent_id, $categoryid);
+                    $categoryid[]=$parent_id;
+                    $this->log($categoryid);
+//                    $id = $this->Sales->Categories->find('list', [
+//                        'limit' =>200,
+//                        'keyField' => 'id',
+//                        'valueField' => ['id']
+//                      ])->where(['OR' => [["categories.parent_id" => $parent_id], ["categories.id" => "$parent_id"]]]);
+//                    $id=array_values($id->toArray());
+                    $conditions['sales.category_id in']=$categoryid;
                 }
                 if(!empty($this->request->data('product_id'))) {
                     $conditions['sales.product_id']=$this->request->data('product_id');
