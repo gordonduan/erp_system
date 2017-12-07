@@ -6,64 +6,58 @@
 ?>
 
 <div class="container clearfix">
-    
+    <!--/main-->
     <div class="main-wrap">
-
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="/erp/pages/home">Homgepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/notices">Notices</a><span class="crumb-step">&gt;</span><span>View</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homgepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/notices">Notices</a><span class="crumb-step">&gt;</span><span>View</span></div>
         </div>
         <?= $this->Flash->render() ?>
-        <div class="result-wrap">
+        <div class="result-wrap" style="border-bottom: 0px">
             <div class="result-content">
                 <?= $this->Form->create('notice', ['type' => 'file']); ?>
                     <table class="insert-tab" width="100%">
-                        <tbody><tr>
+                        <tbody>
+                        <tr>
                             <th width="120"><i class="require-red">*</i>Categories</th>
                             <td>
-                                <?= $this->Form->control('category', ['label' =>'', 'value' => $notice->category, 'options' => $category, 'empty' => true]);?>
-                               
+                                <?= $this->Form->control('category', ['label' =>'', 'value' => $notice->category, 'options' => $category, 'empty' => true, 'disabled' => true]);?>
                             </td>
                         </tr>
                             <tr>
                                 <th><i class="require-red">*</i>Title:</th>
                                 <td>
-                                    <?= $this->Form->text('title', ['value' => $notice->title, 'size' => '50',  'class' => 'common-text required']);?>
+                                    <?= $this->Form->text('title', ['value' => $notice->title, 'size' => '50',  'class' => 'common-text required', 'disabled' => true]);?>
                                 </td>
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Document:</th>
                                 <td>
-                                    <?php if (!empty($notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?>
-                                    
+                                    <?php if (!empty($notice->document) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?>
                                 </td>
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Image:</th>
-                                
-                                <td> <?php if (!empty($notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
+                                <td> <?php if (!empty($notice->image) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Video:</th>
-                                <td><?php if (!empty($notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
+                                <td><?php if (!empty($notice->video) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
                             </tr>
                             <tr>
                                 <th>Content:</th>
-                                
-                                <td><?= $this->Form->textarea('content', ['value' => $notice->content, 'rows' => '10', 'style' => 'width:98%', 'cols' => '30']);?></td>
+                                <td><?= $this->Form->textarea('content', ['value' => $notice->content, 'rows' => '10', 'style' => 'width:98%', 'cols' => '30','disabled' => true]);?></td>
                             </tr>
                             <tr>
                                 <th></th>
                                 <td> 
-                                   
                                     <?= $this->html->link('Back', ['action'=>'index'], ['class' => 'btn btn6', 'style' => 'width:100px']);?>
-                                   
                                 </td>
                             </tr>
-                        </tbody></table>
+                        </tbody>
+                    </table>
                 <?= $this->Form->end() ?>
             </div>
         </div>
-
     </div>
     <!--/main-->
 </div>

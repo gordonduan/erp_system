@@ -6,11 +6,11 @@
 ?>
 
 <div class="main-wrap">
-
+<!--/main-->
         <div class="crumb-wrap">
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Notices</span></div>
         </div>
-    <?= $this->Flash->render() ?>
+        <?= $this->Flash->render() ?>
         <div class="search-wrap">
             <div class="search-content">
                 <?= $this->Form->create('notices', ['url' => ['action' => 'search']])?>
@@ -26,13 +26,10 @@
                                     <option value="4">Finance</option>
                                     <option value="5">Business</option>
                               </select>
-                          </td>
-                                                 
+                          </td>         
                           <th width="70">Title:</th>
                           <td><input class="common-text" placeholder="Title" name="keywords" value="" id="" type="text"></td>
-                          
                           <td><input class="btn btn-primary btn2" name="sub" value="Search" type="submit"></td>
-                          
                       </tr>
                   </table>
                 <?= $this->Form->end() ?>
@@ -41,7 +38,6 @@
         </div>
 
         <div class="result-wrap" style="border-bottom: 0px">
-
                 <div class="result-title">
                     <div class="result-list">
                         <?= $this->Html->link('<i class="icon-font">&#xea0a;</i>'.__('Add Notice', true),['action' => 'add'], ['escape' => false]); ?>
@@ -52,13 +48,11 @@
                     <table class="result-tab" width="100%">
                         <tr>
                                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                                
                                 <th scope="col"><?= $this->Paginator->sort('category') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('title') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('document') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('image') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('video') ?></th>
-                              
                                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -67,13 +61,11 @@
                             <?php foreach ($notices as $notice): ?>
                             <tr>
                                 <td><?= $this->Number->format($notice->id) ?></td>
-                                
                                 <td><?= h($notice->name) ?></td>
                                 <td><?= h($notice->title) ?></td>
-                                <td><?php if (!empty($notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?></td>
-                                <td><?php if (!empty($notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
-                                <td><?php if (!empty($notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
-                                
+                                <td><?php if (!empty($notice->document) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->document))echo $this->Html->link('<i class="icon-font">&#xe926;</i>'.__(trim(strrchr($notice->document, '/'),'/'), true), '/webroot/'.$notice->document, ['target' => '_blank','escape' => false]); ?></td>
+                                <td><?php if (!empty($notice->image) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->image)) echo $this->Html->link('<i class="icon-font">&#xe927;</i>'.__(trim(strrchr($notice->image, '/'),'/'), true), '/webroot/'.$notice->image, ['target' => '_blank','escape' => false]); ?></td>
+                                <td><?php if (!empty($notice->video) & file_exists($_SERVER['DOCUMENT_ROOT'] . '/erp/webroot/'.$notice->video)) echo $this->Html->link('<i class="icon-font">&#xe92a;</i>'.__(trim(strrchr($notice->video, '/'),'/'), true), '/webroot/'.$notice->video, ['target' => '_blank','escape' => false]); ?></td>
                                 <td><?= h($notice->created) ?></td>
                                 <td><?= h($notice->modified) ?></td>
                                 <td class="actions">
@@ -96,8 +88,8 @@
                         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
                     </div>
                 </div>
-
           </div>
+<!--/main-->
 </div>
 
 

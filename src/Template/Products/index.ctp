@@ -18,7 +18,7 @@
         <div class="crumb-wrap">
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><span class="crumb-name">Products</span></div>
         </div>
-    <?= $this->Flash->render() ?>
+        <?= $this->Flash->render() ?>
         <div class="search-wrap">
             <div class="search-content">
               <?= $this->Form->create('product', ['url' => ['action' => 'search']])?>

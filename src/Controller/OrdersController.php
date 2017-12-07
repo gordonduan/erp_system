@@ -75,7 +75,7 @@ class OrdersController extends AppController
              $this->request->session()->write('search_key', $search_key);
           }
        }
-
+       //session set and read to make the pagination works for the search results.
        if ($this->request->session()->check('searchCond')) {
           $conditions = $this->request->session()->read('searchCond');
        } else {
@@ -245,17 +245,24 @@ class OrdersController extends AppController
 //        $this->set('_serialize', ['order']);
     }
     
+     /**
+     * get product method
+     *
+     * @param null
+     * @return \Cake\Http\Response|to add.ctp ajax request.
+     * @purpose when select product, get product info and fill into the form automatically
+     */
     public function getproduct() {
-        if($this->request->is('ajax')) { //判断是否为Ajax请求
-            $id = $this->request->getData('productid'); //获取请求参数
+        if($this->request->is('ajax')) { //Ajax request
+            $id = $this->request->getData('productid'); //get para
 //            $this->log($id);
             $product=$this->Orders->Products->get($id)->toArray();
 //            $this->log($this->Orders->Products->get($id));
 //            $this->log($product);
-            $this->response = $this->response->withType('application/json') //设置响应类型
-                ->withStringBody(json_encode(['name' => $product['name'],'description'=>$product['description']])); //设置响应数据
+            $this->response = $this->response->withType('application/json') //setup response type
+                ->withStringBody(json_encode(['name' => $product['name'],'description'=>$product['description']])); //set up respnose data
         }
-        return $this->response; //返回Cake\Http\Response对象
+        return $this->response; //return Cake\Http\Response object
     }
     
 }

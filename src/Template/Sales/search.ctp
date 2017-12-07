@@ -109,7 +109,25 @@
 
 
 
-
+  
+    <!--
+    $(document).ready(function(){
+    $("#product").change(function(){
+    $.ajax({
+    type: "POST",
+    url: "<?= $this->Url->build(['controller'=>'Sales', 'action'=>'categoryfilter']) ?>",
+    data: {productid: $(this).val()},
+    dataType: 'json',
+    success: function(data) {
+        $("#category").empty();
+        $("#category").append("<option value=''></option>"); 
+        for (var i in data) {  
+             $("#category").append("<option value='"+i+"'>"+ data[i]+ "</option>");  
+        } 
+    }
+    });
+    });
+    -->
 
 <!--
 <?php

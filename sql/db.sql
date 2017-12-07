@@ -32,7 +32,7 @@ CREATE TABLE `categories` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=118 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=126 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `notices` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `notices` (
 
 LOCK TABLES `notices` WRITE;
 /*!40000 ALTER TABLE `notices` DISABLE KEYS */;
-INSERT INTO `notices` VALUES (37,1,'Sales','notice1','uploads/documents/sql.txt',NULL,NULL,'this is notice1',1,'2017-12-02 01:37:29','2017-12-02 01:37:29');
+INSERT INTO `notices` VALUES (58,2,'Administration','Adminstration Notice','uploads/documents/sql.txt','uploads/images/1.png','uploads/videos/xinhu.txt','This is adminstration notice 1.',1,'2017-12-07 01:15:02','2017-12-07 01:16:17');
 /*!40000 ALTER TABLE `notices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `orders` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'Iphone8','64G',1,'0','1','2017-11-18 13:34:24','2017-11-19 02:19:17'),(2,1,'iphone8 sale order','sell iphone8 1 set',1,'0','1','2017-11-18 22:12:05','2017-11-19 03:51:44'),(3,1,'Iphone8 order2','Purchasing order from Apple.',100,'1','1','2017-11-19 00:19:54','2017-11-19 03:55:14'),(4,2,'S8 purchasing order','S8 purchasing order',100,'1','1','2017-11-19 00:25:39','2017-11-19 00:25:39'),(5,2,'sales order','S8 sales order',1,'0','1','2017-11-19 00:37:46','2017-11-26 03:43:44'),(6,2,'S8','S8 order',100,'0','1','2017-11-19 03:56:10','2017-11-19 04:05:32'),(7,2,'S8-1','S8 128G',1,'1','1','2017-11-19 04:07:06','2017-11-19 04:07:14'),(8,2,'S8 blue','S8 blue',1000,'0','1','2017-11-19 04:12:33','2017-11-19 04:12:50'),(9,2,'s8 blue','s8 blue sale',500,'1','1','2017-11-19 04:13:34','2017-11-19 04:13:39'),(31,21,'Blue ballon','The colour is bule.',56789,'1','0','2017-11-28 04:59:33','2017-11-28 04:59:33'),(23,14,'Vacuum','Electrolux portable vacuum cleaner',100,'0','1','2017-11-27 23:14:42','2017-11-27 23:14:54'),(29,21,'Blue ballon','The colour is bule.',2147483647,'1','1','2017-11-28 04:55:48','2017-11-28 04:57:37'),(30,21,'Blue ballon','The colour is bule.',5678,'0','0','2017-11-28 04:59:00','2017-11-28 04:59:00'),(17,11,'GPS','afdafd',100,'0','1','2017-11-20 13:02:17','2017-11-20 13:02:36'),(20,11,'GPS','adadfa',100,'0','1','2017-11-26 03:38:51','2017-11-26 03:39:17'),(25,14,'Vacuum','Electrolux portable vacuum cleaner',5,'1','1','2017-11-28 00:29:20','2017-11-28 00:29:31'),(22,13,'microwave','Sharp microwave #B-01',10,'0','1','2017-11-27 23:09:41','2017-11-27 23:10:43'),(24,16,'Radiator','Pansonic radiator',100,'0','1','2017-11-27 23:15:34','2017-11-27 23:15:49'),(26,14,'Vacuum','Electrolux portable vacuum cleaner',10,'1','1','2017-11-28 00:31:18','2017-11-28 00:31:31'),(28,21,'Blue ballon','The colour is bule.',2147483647,'0','1','2017-11-28 04:53:36','2017-11-28 04:54:55'),(32,21,'Blue ballon','The colour is bule.',56789,'1','1','2017-11-28 04:59:54','2017-11-28 05:01:14'),(33,21,'Blue ballon','The colour is bule.',56789,'0','1','2017-11-28 05:00:23','2017-11-28 05:01:28'),(34,21,'Blue ballon','The colour is bule.',12345,'0','1','2017-11-28 05:00:39','2017-11-28 05:04:20'),(35,21,'Blue ballon','The colour is bule.',12345,'1','1','2017-11-28 05:00:56','2017-11-28 05:04:27'),(36,21,'Blue ballon','The colour is bule.',10,'1','0','2017-11-30 01:50:01','2017-11-30 01:50:01');
+INSERT INTO `orders` VALUES (1,1,'Iphone8','64G',1,'0','1','2017-11-18 13:34:24','2017-11-19 02:19:17'),(2,1,'iphone8 sale order','sell iphone8 1 set',1,'0','1','2017-11-18 22:12:05','2017-11-19 03:51:44'),(3,1,'Iphone8 order2','Purchasing order from Apple.',100,'1','1','2017-11-19 00:19:54','2017-11-19 03:55:14'),(4,2,'S8 purchasing order','S8 purchasing order',100,'1','1','2017-11-19 00:25:39','2017-11-19 00:25:39'),(5,2,'sales order','S8 sales order',1,'0','1','2017-11-19 00:37:46','2017-11-26 03:43:44'),(6,2,'S8','S8 order',100,'0','1','2017-11-19 03:56:10','2017-11-19 04:05:32'),(7,2,'S8-1','S8 128G',1,'1','1','2017-11-19 04:07:06','2017-11-19 04:07:14'),(8,2,'S8 blue','S8 blue',1000,'0','1','2017-11-19 04:12:33','2017-11-19 04:12:50'),(9,2,'s8 blue','s8 blue sale',500,'1','1','2017-11-19 04:13:34','2017-11-19 04:13:39'),(31,21,'Blue ballon','The colour is bule.',56789,'1','0','2017-11-28 04:59:33','2017-11-28 04:59:33'),(23,14,'Vacuum','Electrolux portable vacuum cleaner',100,'0','1','2017-11-27 23:14:42','2017-11-27 23:14:54'),(29,21,'Blue ballon','The colour is bule.',2147483647,'1','1','2017-11-28 04:55:48','2017-11-28 04:57:37'),(30,21,'Blue ballon','The colour is bule.',5678,'0','0','2017-11-28 04:59:00','2017-11-28 04:59:00'),(17,11,'GPS','afdafd',100,'0','1','2017-11-20 13:02:17','2017-11-20 13:02:36'),(20,11,'GPS','adadfa',100,'0','1','2017-11-26 03:38:51','2017-11-26 03:39:17'),(25,14,'Vacuum','Electrolux portable vacuum cleaner',5,'1','1','2017-11-28 00:29:20','2017-11-28 00:29:31'),(22,13,'microwave','Sharp microwave #B-01',10,'0','1','2017-11-27 23:09:41','2017-11-27 23:10:43'),(24,16,'Radiator','Pansonic radiator',100,'0','1','2017-11-27 23:15:34','2017-11-27 23:15:49'),(26,14,'Vacuum','Electrolux portable vacuum cleaner',10,'1','1','2017-11-28 00:31:18','2017-11-28 00:31:31'),(28,21,'Blue ballon','The colour is bule.',2147483647,'0','1','2017-11-28 04:53:36','2017-11-28 04:54:55'),(32,21,'Blue ballon','The colour is bule.',56789,'1','1','2017-11-28 04:59:54','2017-11-28 05:01:14'),(33,21,'Blue ballon','The colour is bule.',56789,'0','1','2017-11-28 05:00:23','2017-11-28 05:01:28'),(34,21,'Blue ballon','The colour is bule.',12345,'0','1','2017-11-28 05:00:39','2017-11-28 05:04:20'),(35,21,'Blue ballon','The colour is bule.',12345,'1','1','2017-11-28 05:00:56','2017-11-28 05:04:27'),(36,21,'Blue ballon','The colour is bule.',10,'1','1','2017-11-30 01:50:01','2017-12-04 11:30:39'),(37,15,'laptop','Lenovo laptop',10,'1','1','2017-12-04 11:30:22','2017-12-04 11:30:32');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -163,7 +163,7 @@ CREATE TABLE `products` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +194,7 @@ CREATE TABLE `sales` (
   `amount` float DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,7 +203,7 @@ CREATE TABLE `sales` (
 
 LOCK TABLES `sales` WRITE;
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-INSERT INTO `sales` VALUES (1,1,20,'Iphone8','Apple Iphone8 ',1,1200,1200,'2017-11-19 02:19:17'),(2,1,20,'Iphone8','Apple Iphone8 ',1,1200,1200,'2017-11-19 03:51:44'),(3,2,21,'S8','Samsung S8',100,1200,120000,'2017-11-19 04:05:32'),(4,2,21,'S8','Samsung S8',1000,1200,1200000,'2017-11-19 04:12:50'),(6,1,20,'Iphone8','Apple Iphone8 ',7,1200,8400,'2017-11-20 12:42:23'),(8,11,16,'GPS','adadfa',100,100,10000,'2017-11-20 13:02:36'),(12,21,117,'Blue ballon','The colour is bule.',56789,4,227156,'2017-11-28 05:01:14'),(9,14,9,'Vacuum','Electrolux portable vacuum cleaner',10,300,3000,'2017-11-28 00:31:31'),(11,21,117,'Blue ballon','The colour is bule.',2147483647,4,8589930000,'2017-11-28 04:57:37'),(13,21,117,'Blue ballon','The colour is bule.',12345,4,49380,'2017-11-28 05:04:27');
+INSERT INTO `sales` VALUES (1,1,20,'Iphone8','Apple Iphone8 ',1,1200,1200,'2017-11-19 02:19:17'),(2,1,20,'Iphone8','Apple Iphone8 ',1,1200,1200,'2017-11-19 03:51:44'),(3,2,21,'S8','Samsung S8',100,1200,120000,'2017-11-19 04:05:32'),(4,2,21,'S8','Samsung S8',1000,1200,1200000,'2017-11-19 04:12:50'),(6,1,20,'Iphone8','Apple Iphone8 ',7,1200,8400,'2017-11-20 12:42:23'),(8,11,16,'GPS','adadfa',100,100,10000,'2017-11-20 13:02:36'),(12,21,117,'Blue ballon','The colour is bule.',56789,4,227156,'2017-11-28 05:01:14'),(9,14,9,'Vacuum','Electrolux portable vacuum cleaner',10,300,3000,'2017-11-28 00:31:31'),(11,21,117,'Blue ballon','The colour is bule.',2147483647,4,8589930000,'2017-11-28 04:57:37'),(13,21,117,'Blue ballon','The colour is bule.',12345,4,49380,'2017-11-28 05:04:27'),(14,15,11,'laptop','Lenovo laptop',10,1500,15000,'2017-12-04 11:30:32'),(15,21,117,'Blue ballon','The colour is bule.',10,4,40,'2017-12-04 11:30:39');
 /*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +223,7 @@ CREATE TABLE `stocks` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,7 @@ CREATE TABLE `stocks` (
 
 LOCK TABLES `stocks` WRITE;
 /*!40000 ALTER TABLE `stocks` DISABLE KEYS */;
-INSERT INTO `stocks` VALUES (1,1,'iphone8','',101,'2017-11-18 13:43:15','2017-11-18 13:43:15'),(4,2,'S8 blue','S8 blue',501,'2017-11-19 04:12:50','2017-11-19 04:12:50'),(8,11,'GPS','afdafd',150,'2017-11-20 13:02:36','2017-11-20 13:02:36'),(9,13,'microwave','Sharp microwave #B-01',10,'2017-11-27 23:10:43','2017-11-27 23:10:43'),(10,14,'Vacuum','Electrolux portable vacuum cleaner',85,'2017-11-27 23:14:54','2017-11-27 23:14:54'),(11,16,'Radiator','Pansonic radiator',100,'2017-11-27 23:15:49','2017-11-27 23:15:49'),(13,21,'Blue ballon','The colour is bule.',0,'2017-11-28 04:54:55','2017-11-28 04:54:55');
+INSERT INTO `stocks` VALUES (1,1,'iphone8','',101,'2017-11-18 13:43:15','2017-11-18 13:43:15'),(4,2,'S8 blue','S8 blue',501,'2017-11-19 04:12:50','2017-11-19 04:12:50'),(14,15,'laptop','Lenovo laptop',-10,'2017-12-04 11:30:32','2017-12-04 11:30:32'),(8,11,'GPS','afdafd',150,'2017-11-20 13:02:36','2017-11-20 13:02:36'),(9,13,'microwave','Sharp microwave #B-01',10,'2017-11-27 23:10:43','2017-11-27 23:10:43'),(10,14,'Vacuum','Electrolux portable vacuum cleaner',85,'2017-11-27 23:14:54','2017-11-27 23:14:54'),(11,16,'Radiator','Pansonic radiator',100,'2017-11-27 23:15:49','2017-11-27 23:15:49'),(13,21,'Blue ballon','The colour is bule.',-10,'2017-11-28 04:54:55','2017-11-28 04:54:55');
 /*!40000 ALTER TABLE `stocks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +253,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-02 14:39:25
+-- Dump completed on 2017-12-07 14:24:40

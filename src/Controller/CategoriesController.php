@@ -82,7 +82,7 @@ class CategoriesController extends AppController
              $this->request->session()->write('search_key', $search_key);
           }
        }
-
+       //session set and read to make the pagination works for the search results.
        if ($this->request->session()->check('searchCond')) {
           $conditions = $this->request->session()->read('searchCond');
        } else {
@@ -100,24 +100,13 @@ class CategoriesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         if ($this->request->is('post'))
         {
-           if(!empty($this->request->data) && isset($this->request->data) )
+           if(!empty($this->request->data) && isset($this->request->data))
            {
              $deleteid = $this->request->data('id');
              foreach ( $deleteid as $id ) {
-                $category = $this->Categories->get ($id);
-                 if ($this->Categories->delete($category)) {
-                    $success='Y';
-                    } else {
-                        $success='N';
-                        return;
-                    }
-            }
-            if ($success='Y') {
-                    $this->Flash->success(__('The categories has been deleted.'));
-                    } elseif ($success='N')  {
-                        $this->Flash->error(__('The categories could not be deleted. Please, try again.'));
-                    }  
-            }
+                $this->delete($id);
+             }
+           }
         }
         return $this->redirect(['action' => 'index']);
     }
@@ -138,7 +127,7 @@ class CategoriesController extends AppController
      */
     public function view($id = null)
     {
-        $this->log('222');
+//        $this->log('222');
         $category = $this->Categories->get($id, [
             'contain' => ['ParentCategories', 'ChildCategories', 'Products']
         ]);
@@ -205,9 +194,16 @@ class CategoriesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $this->log('111');
+//        $this->log('111');
         $category = $this->Categories->get($id);
-        debug($category);
+//        debug($category);
+        $productsCount=$this->Categories->Products->find()
+                    ->where(["products.category_id" => $id])->count();
+        $this->log($productsCount);
+        if ($productsCount>0) {
+            $this->Flash->warning(__('There are products in this category, it could not be deleted. Please try again.'));
+            return $this->redirect(['action' => 'index']);
+        }
         if ($this->Categories->delete($category)) {
             $this->Flash->success(__('The category has been deleted.'));
         } else {

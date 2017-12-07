@@ -65,7 +65,7 @@ class ProductsController extends AppController
              $this->request->session()->write('search_key', $search_key);
           }
        }
-
+       //session set and read to make the pagination works for the search results.
        if ($this->request->session()->check('searchCond')) {
           $conditions = $this->request->session()->read('searchCond');
        } else {

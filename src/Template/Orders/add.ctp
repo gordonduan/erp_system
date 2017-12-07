@@ -148,7 +148,7 @@ $("#product").change(function(){
 </div>
 
 
-
+<!--send ajax request to controller, when select product, get product info and fill into the form automatically -->
 <script>
 $(document).ready(function(){
 $("#product").change(function(){

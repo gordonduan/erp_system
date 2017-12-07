@@ -65,12 +65,12 @@ class NoticesTable extends Table
             ->requirePresence('title');
 
         $validator
-            ->scalar('text')
-            ->allowEmpty('text');
+            ->scalar('document')
+            ->allowEmpty('document');
 
         $validator
-            ->scalar('picture')
-            ->allowEmpty('picture');
+            ->scalar('image')
+            ->allowEmpty('image');
 
         $validator
             ->scalar('video')

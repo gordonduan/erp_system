@@ -22,11 +22,15 @@ function formsubmit()
        alert("Please select at least one record!");
        return;
    }
-  document.getElementById("batchdelform").submit();
+  if (confirm('Are you sure you want to delete these categories?')) {
+      document.getElementById("batchdelform").submit();
+  }else{
+        return;
+    }
 }
 </script>
 
-<?php $this->set('toParent' , 'Categories');?>
+<!-- <?php $this->set('toParent' , 'Categories');?>-->
 
 <div class="main-wrap">
 

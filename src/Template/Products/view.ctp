@@ -18,7 +18,7 @@
       <div class="crumb-wrap">
             <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/products">Products</a><span class="crumb-step">&gt;</span><span>View</span></div>
       </div>
-    <?= $this->Flash->render() ?>
+        <?= $this->Flash->render() ?>
         <div class="result-wrap" >
             <div class="result-content">
 
@@ -33,14 +33,14 @@
                           <tr>
                             <th><i class="require-red">*</i>Name：</th>
                               <td>
-                                <?= $this->Form->text('name', ['value' => $product->name, 'size' => '50',  'class' => 'common-text required']);?>
+                                <?= $this->Form->text('name', ['value' => $product->name, 'size' => '50',  'class' => 'common-text required', 'disabled' => true]);?>
                               </td>
                           </tr>
 
                           <tr>
                             <th>Price：</th>
                               <td>
-                                <?= $this->Form->control('price',['value' => $product->price, 'label' =>'',])?>
+                                <?= $this->Form->control('price',['value' => $product->price, 'label' =>'','disabled' => true])?>
                               </td>
                           </tr>
 
@@ -48,7 +48,7 @@
                           <tr>
                             <th>Description：</th>
                               <td>
-                                <?= $this->Form->textarea('description', ['value' => $product->description, 'rows' => '10', 'style' => 'width:98%', 'cols' => '30']);?>
+                                <?= $this->Form->textarea('description', ['value' => $product->description, 'rows' => '10', 'style' => 'width:98%', 'cols' => '30','disabled' => true]);?>
                               </td>
                           </tr>
                             <tr>
@@ -80,7 +80,6 @@
                       <th scope="col"><?= __('Status') ?></th>
                       <th scope="col"><?= __('Created') ?></th>
                       <th scope="col"><?= __('Modified') ?></th>
-                      <th scope="col" class="actions"><?= __('Actions') ?></th>
                     </tr>
                       <tbody>
 
@@ -91,16 +90,10 @@
                           <td><?= h($orders->name) ?></td>
                           <td><?= h($orders->description) ?></td>
                           <td><?= h($orders->quantity) ?></td>
-                          <td><?= h($orders->type) ?></td>
-                          <td><?= h($orders->status) ?></td>
+                          <td><?php $output = ($orders->type=='0')? 'Purchasing':'Sales'; echo $output; ?></td>
+                          <td><?php $output = ($orders->status=='0')? 'Not Finished':'Finished';echo $output; ?></td>
                           <td><?= h($orders->created) ?></td>
                           <td><?= h($orders->modified) ?></td>
-                          <td class="actions">
-                              <?= $this->Html->link(__('View'), ['controller' => 'Orders', 'action' => 'view', $orders->id]) ?>
-                              <?= $this->Html->link(__('Edit'), ['controller' => 'Orders', 'action' => 'edit', $orders->id]) ?>
-                              <?= $this->Form->postLink(__('Delete'), ['controller' => 'Orders', 'action' => 'delete', $orders->id], ['confirm' => __('Are you sure you want to delete # {0}?', $orders->id)]) ?>
-                          </td>
-
                         </tr>
                         <?php endforeach; ?>
                       </tbody>

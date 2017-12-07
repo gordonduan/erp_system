@@ -108,7 +108,7 @@
           </div>
 </div>
 
-
+<!--send ajax request to controller.get return response to filter products by categories or filter categories by product -->
 <script>
 $(document).ready(function(){
     $("#category").change(function(){
@@ -119,25 +119,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data) {
             $("#product").empty();
+            $("#product").append("<option value=''></option>");  
             for (var i in data) {  
                  $("#product").append("<option value='"+i+"'>"+ data[i]+ "</option>");  
             } 
         }
-    });
-    });
-    
-    $("#product").change(function(){
-    $.ajax({
-    type: "POST",
-    url: "<?= $this->Url->build(['controller'=>'Sales', 'action'=>'categoryfilter']) ?>",
-    data: {productid: $(this).val()},
-    dataType: 'json',
-    success: function(data) {
-        $("#category").empty();
-        for (var i in data) {  
-             $("#category").append("<option value='"+i+"'>"+ data[i]+ "</option>");  
-        } 
-    }
     });
     });
 });

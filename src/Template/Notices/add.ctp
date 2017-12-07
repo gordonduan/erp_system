@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Notice $notice
  */
 ?>
+<!--Pass category name to hidden element "noticecat", save it in database -->
 <script>
 $(document).ready(function(){
 $("#catid").change(function(){  
@@ -15,11 +16,10 @@ $("#catid").change(function(){
 </script>  
 
 <div class="container clearfix">
-    
+    <!--/main-->
     <div class="main-wrap">
-
         <div class="crumb-wrap">
-            <div class="crumb-list"><i class="icon-font"></i><a href="/erp/pages/home">Homgepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/notices">Notices</a><span class="crumb-step">&gt;</span><span>Add</span></div>
+            <div class="crumb-list"><i class="icon-font">&#xe900;</i><a href="/erp/pages/home">Homgepage</a><span class="crumb-step">&gt;</span><a class="crumb-name" href="/erp/notices">Notices</a><span class="crumb-step">&gt;</span><span>Add</span></div>
         </div>
         <?= $this->Flash->render() ?>
         <div class="result-wrap">
@@ -57,7 +57,6 @@ $("#catid").change(function(){
                             <tr>
                                 <th><i class="require-red"></i>Image:</th>
                                 <td><?= $this->Form->input('image', ['type' => 'file', 'label' => '', 'class' => 'form-control']); ?></td>
-                                
                             </tr>
                             <tr>
                                 <th><i class="require-red"></i>Video:</th>
@@ -72,19 +71,19 @@ $("#catid").change(function(){
                                 <td> 
                                     <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary btn6 mr10']) ?>
                                     <?= $this->html->link('Back', ['action'=>'index'], ['class' => 'btn btn6', 'style' => 'width:100px']);?>
-                                   
                                 </td>
                             </tr>
-                        </tbody></table>
+                        </tbody>
+                    </table>
                 <?= $this->Form->end() ?>
             </div>
         </div>
-
     </div>
     <!--/main-->
 </div>
 
--->
+
+
 
 <!--
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
